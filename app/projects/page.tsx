@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const projects = [
@@ -253,7 +253,96 @@ const filters = [
 
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState("All projects");
+  const [darkMode, setDarkMode] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const [projectViews, setProjectViews] = useState<Record<string, number>>({});
+  const [projectLikes, setProjectLikes] = useState<Record<string, number>>({});
+  const [likedProjects, setLikedProjects] = useState<Record<string, boolean>>(
+    {},
+  );
+
+  // Use the same saved theme preference as the main portfolio page.
+  useEffect(() => {
+    const syncTheme = () => {
+      try {
+        setDarkMode(localStorage.getItem("heru-portfolio-theme") === "dark");
+      } catch {
+        setDarkMode(false);
+      }
+    };
+
+    syncTheme();
+    window.addEventListener("storage", syncTheme);
+    window.addEventListener("heru-portfolio-theme-change", syncTheme);
+    return () => {
+      window.removeEventListener("storage", syncTheme);
+      window.removeEventListener("heru-portfolio-theme-change", syncTheme);
+    };
+  }, []);
+
+  useEffect(() => {
+    try {
+      setProjectViews(
+        JSON.parse(localStorage.getItem("heru-project-archive-views") || "{}"),
+      );
+      setProjectLikes(
+        JSON.parse(localStorage.getItem("heru-project-archive-likes") || "{}"),
+      );
+      setLikedProjects(
+        JSON.parse(localStorage.getItem("heru-project-archive-liked") || "{}"),
+      );
+    } catch {
+      // Keep the default values if browser storage is unavailable.
+    }
+  }, []);
+
+  const registerProjectView = (projectName: string) => {
+    try {
+      const sessionKey = `heru-project-archive-viewed-${projectName}`;
+      if (sessionStorage.getItem(sessionKey)) return;
+      sessionStorage.setItem(sessionKey, "1");
+      setProjectViews((current) => {
+        const next = {
+          ...current,
+          [projectName]: (current[projectName] || 0) + 1,
+        };
+        localStorage.setItem(
+          "heru-project-archive-views",
+          JSON.stringify(next),
+        );
+        return next;
+      });
+    } catch {
+      // Cards remain usable if browser storage is disabled.
+    }
+  };
+
+  const toggleProjectLike = (projectName: string) => {
+    const wasLiked = Boolean(likedProjects[projectName]);
+    const nextLiked = { ...likedProjects, [projectName]: !wasLiked };
+    const nextLikes = {
+      ...projectLikes,
+      [projectName]: Math.max(
+        0,
+        (projectLikes[projectName] || 0) + (wasLiked ? -1 : 1),
+      ),
+    };
+
+    setLikedProjects(nextLiked);
+    setProjectLikes(nextLikes);
+    try {
+      localStorage.setItem(
+        "heru-project-archive-liked",
+        JSON.stringify(nextLiked),
+      );
+      localStorage.setItem(
+        "heru-project-archive-likes",
+        JSON.stringify(nextLikes),
+      );
+    } catch {
+      // Keep the interactive state if browser storage is disabled.
+    }
+  };
 
   const visibleProjects = useMemo(
     () =>
@@ -264,7 +353,7 @@ export default function ProjectsPage() {
   );
 
   return (
-    <main className="projects-page">
+    <main className={`projects-page ${darkMode ? "dark-theme" : ""}`}>
       <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
@@ -309,14 +398,42 @@ export default function ProjectsPage() {
         .projects-back {
           display: inline-flex;
           align-items: center;
-          gap: 9px;
-          color: var(--projects-blue);
-          font-size: 12px;
+          justify-content: center;
+          gap: 10px;
+          min-height: 46px;
+          padding: 0 20px;
+          border: 1px solid #2458ff;
+          border-radius: 12px;
+          background: #2458ff;
+          color: #ffffff;
+          font-size: 13px;
           font-weight: 700;
+          line-height: 1;
           text-decoration: none;
+          box-shadow: 0 8px 18px rgba(36, 88, 255, 0.16);
+          transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
         }
         .projects-back:hover {
-          color: #163e65;
+          border-color: #1746e8;
+          background: #1746e8;
+          color: #ffffff;
+          box-shadow: 0 11px 22px rgba(36, 88, 255, 0.24);
+          transform: translateY(-2px);
+        }
+        .projects-back:focus-visible {
+          outline: 3px solid rgba(36, 88, 255, 0.35);
+          outline-offset: 4px;
+        }
+        .projects-back span {
+          font-size: 17px;
+          transition: transform 0.2s ease;
+        }
+        .projects-back:hover span {
+          transform: translateX(-3px);
         }
         .projects-hero {
           display: grid;
@@ -688,6 +805,55 @@ export default function ProjectsPage() {
           font-size: 10px;
           font-weight: 700;
         }
+        .project-engagement {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-top: 18px;
+          color: #71869a;
+          font-size: 11px;
+          font-weight: 700;
+        }
+        .project-engagement-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: inherit;
+          line-height: 1;
+        }
+        .project-like-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 0;
+          border: 0;
+          background: transparent;
+          color: #71869a;
+          cursor: pointer;
+          font: inherit;
+          line-height: 1;
+          transition:
+            color 0.2s ease,
+            transform 0.2s ease;
+        }
+        .project-like-button:hover {
+          color: #e25570;
+          transform: translateY(-1px);
+        }
+        .project-like-button.liked {
+          color: #e25570;
+        }
+        .project-like-button:focus-visible {
+          outline: 2px solid #2458ff;
+          outline-offset: 4px;
+          border-radius: 4px;
+        }
+        .project-like-button svg,
+        .project-engagement-item svg {
+          width: 15px;
+          height: 15px;
+          flex: 0 0 15px;
+        }
         .project-link {
           display: inline-flex;
           align-items: center;
@@ -756,6 +922,14 @@ export default function ProjectsPage() {
           }
           .projects-nav {
             padding: 20px 0;
+            gap: 12px;
+          }
+          .projects-back {
+            min-height: 42px;
+            padding: 0 13px;
+            border-radius: 10px;
+            font-size: 11px;
+            white-space: nowrap;
           }
           .projects-hero {
             padding: 42px 0 28px;
@@ -795,6 +969,106 @@ export default function ProjectsPage() {
           .projects-filter {
             transition: none !important;
           }
+        }
+
+        /* Keep Project Archive in sync with the theme selected on the home page. */
+        .projects-page.dark-theme {
+          --projects-cream: #0b1220;
+          --projects-paper: #172438;
+          --projects-navy: #edf4ff;
+          --projects-blue: #93c5fd;
+          --projects-muted: #bac9dc;
+          --projects-line: #2d4058;
+          background: #0b1220;
+          color: #edf4ff;
+          color-scheme: dark;
+        }
+        .projects-page.dark-theme .projects-nav {
+          border-color: #2d4058;
+        }
+        .projects-page.dark-theme .projects-brand,
+        .projects-page.dark-theme .projects-hero h1 {
+          color: #edf4ff;
+        }
+        .projects-page.dark-theme .projects-hero h1 em {
+          color: #93c5fd;
+        }
+        .projects-page.dark-theme .projects-hero-copy,
+        .projects-page.dark-theme .projects-count,
+        .projects-page.dark-theme .projects-controls-label {
+          color: #b7c6d9;
+        }
+        .projects-page.dark-theme .projects-filter {
+          border-color: #3b506b;
+          color: #d6e3f4;
+          background: #111d30;
+        }
+        .projects-page.dark-theme .projects-filter:hover,
+        .projects-page.dark-theme .projects-filter.active {
+          border-color: #3b82f6;
+          background: #2563eb;
+          color: #ffffff;
+        }
+        .projects-page.dark-theme .project-entry {
+          border-color: #2d4058;
+          background: #172438;
+          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.16);
+        }
+        .projects-page.dark-theme .project-entry:hover {
+          border-color: #52739a;
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+        }
+        .projects-page.dark-theme .project-info,
+        .projects-page.dark-theme .project-info h2,
+        .projects-page.dark-theme .project-info h3,
+        .projects-page.dark-theme .project-name,
+        .projects-page.dark-theme .project-description {
+          color: #edf4ff;
+        }
+        .projects-page.dark-theme .project-type,
+        .projects-page.dark-theme .project-meta,
+        .projects-page.dark-theme .project-engagement,
+        .projects-page.dark-theme .project-engagement-item {
+          color: #b7c6d9;
+        }
+        .projects-page.dark-theme .project-tags span {
+          border-color: #3b506b;
+          background: #20334c;
+          color: #d5e5f8;
+        }
+        .projects-page.dark-theme .project-outcome {
+          border-color: #385472;
+          background: #1b3048;
+          color: #dbeafe;
+        }
+        .projects-page.dark-theme .project-link {
+          color: #93c5fd;
+        }
+        .projects-page.dark-theme .projects-footer {
+          border-color: #2d4058;
+          color: #aebfd3;
+        }
+        .projects-page.dark-theme .art-window {
+          border-color: #405570;
+          background: rgba(18, 31, 49, 0.94);
+        }
+        .projects-page.dark-theme .art-window-head {
+          border-color: #354a63;
+        }
+        .projects-page.dark-theme .art-window-head span,
+        .projects-page.dark-theme .art-content,
+        .projects-page.dark-theme .art-sidebar {
+          color: #dbeafe;
+        }
+        .projects-page.dark-theme .projects-back {
+          border-color: #3b82f6;
+          background: #2563eb;
+          color: #ffffff;
+        }
+        .projects-page.dark-theme .projects-back:hover {
+          border-color: #60a5fa;
+          background: #1d4ed8;
+          color: #ffffff;
         }
       `}</style>
 
@@ -861,6 +1135,7 @@ export default function ProjectsPage() {
                 shouldReduceMotion ? undefined : { opacity: 1, y: 0 }
               }
               viewport={{ once: true, amount: 0.12 }}
+              onViewportEnter={() => registerProjectView(project.name)}
               transition={{ duration: 0.45, delay: (index % 2) * 0.08 }}
             >
               <div
@@ -986,6 +1261,51 @@ export default function ProjectsPage() {
                     <span>{project.secondaryOutcome}</span>
                   </div>
                 )}
+                <div
+                  className="project-engagement"
+                  aria-label={`${project.name} engagement`}
+                >
+                  <span
+                    className="project-engagement-item"
+                    aria-label={`${projectViews[project.name] || 0} views`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <span>{projectViews[project.name] || 0} views</span>
+                  </span>
+                  <button
+                    type="button"
+                    className={`project-like-button ${likedProjects[project.name] ? "liked" : ""}`}
+                    onClick={() => toggleProjectLike(project.name)}
+                    aria-pressed={Boolean(likedProjects[project.name])}
+                    aria-label={`${likedProjects[project.name] ? "Unlike" : "Like"} ${project.name}`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill={
+                        likedProjects[project.name] ? "currentColor" : "none"
+                      }
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z" />
+                    </svg>
+                    <span>{projectLikes[project.name] || 0} likes</span>
+                  </button>
+                </div>
                 <a
                   className="project-link"
                   href={project.link}
@@ -1001,7 +1321,6 @@ export default function ProjectsPage() {
 
         <footer className="projects-footer">
           <span>Thoughtful design, grounded in real user needs.</span>
-          <Link href="/">← Return to homepage</Link>
         </footer>
       </div>
     </main>
