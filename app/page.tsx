@@ -8168,6 +8168,561 @@ export default function Home() {
               font-size: 12px;
             }
           }
+
+          /* Responsive How I Work timeline: horizontal on desktop, vertical on mobile. */
+          .portfolio .process-grid {
+            position: relative !important;
+            display: grid !important;
+            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+            align-items: start !important;
+            gap: clamp(12px, 1.7vw, 24px) !important;
+            margin-top: 54px !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            isolation: isolate !important;
+          }
+
+          .portfolio .process-grid::before {
+            content: "" !important;
+            display: block !important;
+            position: absolute !important;
+            top: 16px;
+            left: 17px;
+            right: 17px;
+            width: auto;
+            height: 2px;
+            border: 0 !important;
+            border-radius: 99px !important;
+            background: linear-gradient(
+              90deg,
+              #315d86 0%,
+              #8da8bd 55%,
+              #d7e1e8 100%
+            ) !important;
+            z-index: 0 !important;
+          }
+
+          .portfolio .process-grid::after {
+            content: "" !important;
+            display: block !important;
+            position: absolute !important;
+            z-index: 1 !important;
+            top: 15px;
+            left: 7%;
+            right: auto;
+            bottom: auto;
+            width: 22%;
+            height: 4px;
+            border: 0 !important;
+            border-radius: 999px !important;
+            background: linear-gradient(
+              90deg,
+              #3478e5,
+              #27b7bd,
+              #8a70f4
+            ) !important;
+            box-shadow: 0 0 10px rgba(52, 120, 229, 0.32) !important;
+            animation: process-line-travel-final 4s linear infinite !important;
+            animation-play-state: running !important;
+            pointer-events: none !important;
+          }
+
+          .portfolio .process-item,
+          .portfolio .process-item:nth-child(n),
+          .portfolio .process-item:nth-child(even) {
+            position: relative !important;
+            display: block !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+            animation: none !important;
+          }
+
+          .portfolio .process-item::before,
+          .portfolio .process-item:nth-child(n)::before,
+          .portfolio .process-item:nth-child(even)::before {
+            content: "" !important;
+            position: relative !important;
+            z-index: 2 !important;
+            display: block !important;
+            width: 32px;
+            height: 32px;
+            margin: 0 0 27px !important;
+            border: 2px solid #315d86 !important;
+            border-radius: 50% !important;
+            background: #f7f5ef !important;
+            box-shadow:
+              inset 0 0 0 5px #f7f5ef,
+              inset 0 0 0 8px #315d86,
+              0 0 0 5px #e7edf1 !important;
+            animation: none !important;
+            transform: none !important;
+          }
+
+          .portfolio .process-item::after,
+          .portfolio .process-item:nth-child(n)::after,
+          .portfolio .process-item:nth-child(even)::after {
+            display: none !important;
+            content: none !important;
+            animation: none !important;
+          }
+
+          .portfolio .process-item > span {
+            display: block !important;
+            margin: 0 0 9px !important;
+            color: #315d86 !important;
+            font-size: 10px !important;
+            line-height: 1.4 !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.13em !important;
+          }
+
+          .portfolio .process-item h3 {
+            margin: 0 0 10px !important;
+            color: #1b2e40 !important;
+            font-size: clamp(17px, 1.45vw, 21px) !important;
+            line-height: 1.2 !important;
+            overflow-wrap: anywhere;
+          }
+
+          .portfolio .process-item p {
+            max-width: 200px !important;
+            margin: 0 !important;
+            color: #6d7780 !important;
+            font-size: 12px !important;
+            line-height: 1.75 !important;
+            overflow-wrap: break-word;
+          }
+
+          .portfolio.dark-theme .process-grid::before {
+            background: linear-gradient(
+              90deg,
+              #60a5fa 0%,
+              #496987 55%,
+              #293b50 100%
+            ) !important;
+          }
+
+          .portfolio.dark-theme .process-grid::after {
+            background: linear-gradient(
+              90deg,
+              #60a5fa,
+              #38bdf8,
+              #a78bfa
+            ) !important;
+            box-shadow: 0 0 12px rgba(96, 165, 250, 0.3) !important;
+          }
+
+          .portfolio.dark-theme .process-item::before {
+            background: #172235 !important;
+            border-color: #60a5fa !important;
+            box-shadow:
+              inset 0 0 0 5px #172235,
+              inset 0 0 0 8px #60a5fa,
+              0 0 0 5px #243449 !important;
+          }
+
+          .portfolio.dark-theme .process-item > span {
+            color: #93c5fd !important;
+          }
+
+          .portfolio.dark-theme .process-item h3 {
+            color: #f1f5f9 !important;
+          }
+
+          .portfolio.dark-theme .process-item p {
+            color: #cbd5e1 !important;
+          }
+
+          @media (max-width: 1000px) {
+            .portfolio .process-grid {
+              grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+              gap: 34px 24px !important;
+              margin-top: 40px !important;
+            }
+
+            .portfolio .process-grid::before,
+            .portfolio .process-grid::after {
+              display: none !important;
+            }
+
+            .portfolio .process-item::before,
+            .portfolio .process-item:nth-child(n)::before {
+              margin: 0 0 20px !important;
+            }
+
+            .portfolio .process-item p {
+              max-width: 260px !important;
+            }
+          }
+
+          @media (max-width: 640px) {
+            /* One-column mobile timeline with a moving accent strip; no arrows. */
+            .portfolio .process-grid {
+              position: relative !important;
+              isolation: isolate !important;
+              display: grid !important;
+              grid-template-columns: minmax(0, 1fr) !important;
+              gap: 0 !important;
+              margin-top: 34px !important;
+              padding: 0 0 0 2px !important;
+              overflow: visible !important;
+            }
+
+            .portfolio .process-grid::before {
+              display: block !important;
+              content: "" !important;
+              position: absolute !important;
+              top: 15px;
+              bottom: 42px;
+              left: 15px;
+              right: auto;
+              width: 2px;
+              height: auto;
+              border: 0 !important;
+              border-radius: 99px !important;
+              background: linear-gradient(
+                180deg,
+                #315d86 0%,
+                #58a6ef 55%,
+                #9b87f5 100%
+              ) !important;
+              z-index: 0 !important;
+            }
+
+            .portfolio .process-grid::after {
+              display: block !important;
+              content: "" !important;
+              position: absolute !important;
+              z-index: 4 !important;
+              top: 15px;
+              bottom: auto;
+              left: 14px;
+              right: auto;
+              width: 4px;
+              height: 36px;
+              border: 0 !important;
+              border-radius: 999px !important;
+              background: linear-gradient(
+                180deg,
+                #3478e5 0%,
+                #27b7bd 55%,
+                #8a70f4 100%
+              ) !important;
+              box-shadow: 0 0 10px rgba(52, 120, 229, 0.32) !important;
+              animation: process-line-travel-vertical-final 3.2s linear infinite !important;
+              animation-play-state: running !important;
+              will-change: top, opacity !important;
+              pointer-events: none !important;
+            }
+
+            .portfolio.dark-theme .process-grid::before {
+              background: linear-gradient(
+                180deg,
+                #60a5fa 0%,
+                #38bdf8 55%,
+                #a78bfa 100%
+              ) !important;
+            }
+
+            .portfolio.dark-theme .process-grid::after {
+              background: linear-gradient(
+                180deg,
+                #60a5fa 0%,
+                #38bdf8 55%,
+                #a78bfa 100%
+              ) !important;
+              box-shadow: 0 0 12px rgba(96, 165, 250, 0.3) !important;
+            }
+
+            .portfolio .process-item,
+            .portfolio .process-item:nth-child(n),
+            .portfolio .process-item:nth-child(even) {
+              position: relative !important;
+              z-index: 1 !important;
+              display: grid !important;
+              grid-template-columns: 30px minmax(0, 1fr) !important;
+              grid-template-rows: auto auto auto !important;
+              column-gap: 16px !important;
+              align-items: start !important;
+              padding: 0 0 34px !important;
+              margin: 0 !important;
+            }
+
+            .portfolio .process-item:last-child {
+              padding-bottom: 0 !important;
+            }
+
+            .portfolio .process-item::before,
+            .portfolio .process-item:nth-child(n)::before,
+            .portfolio .process-item:nth-child(even)::before {
+              grid-column: 1 !important;
+              grid-row: 1 / span 3 !important;
+              width: 25px;
+              height: 25px;
+              margin: 2px 0 0 !important;
+              border: 2px solid #315d86 !important;
+              border-radius: 50% !important;
+              background: #f7f5ef !important;
+              box-shadow:
+                inset 0 0 0 4px #f7f5ef,
+                inset 0 0 0 7px #315d86,
+                0 0 0 4px #e7edf1 !important;
+              z-index: 2 !important;
+            }
+
+            .portfolio.dark-theme .process-item::before,
+            .portfolio.dark-theme .process-item:nth-child(n)::before,
+            .portfolio.dark-theme .process-item:nth-child(even)::before {
+              background: #172235 !important;
+              border-color: #60a5fa !important;
+              box-shadow:
+                inset 0 0 0 4px #172235,
+                inset 0 0 0 7px #60a5fa,
+                0 0 0 4px #243449 !important;
+            }
+
+            .portfolio .process-item > span {
+              grid-column: 2 !important;
+              grid-row: 1 !important;
+              margin: 0 0 7px !important;
+              font-size: 10px !important;
+              letter-spacing: 0.1em !important;
+            }
+
+            .portfolio .process-item h3 {
+              grid-column: 2 !important;
+              grid-row: 2 !important;
+              margin: 0 0 8px !important;
+              font-size: 19px !important;
+              line-height: 1.25 !important;
+              overflow-wrap: normal !important;
+            }
+
+            .portfolio .process-item p {
+              grid-column: 2 !important;
+              grid-row: 3 !important;
+              max-width: none !important;
+              margin: 0 !important;
+              font-size: 13px !important;
+              line-height: 1.7 !important;
+            }
+          }
+
+          @keyframes process-line-travel-vertical-final {
+            0% {
+              top: 15px;
+              opacity: 0.75;
+            }
+            8% {
+              opacity: 1;
+            }
+            92% {
+              opacity: 1;
+            }
+            100% {
+              top: calc(100% - 55px);
+              opacity: 0.75;
+            }
+          }
+
+          @keyframes process-line-travel-final {
+            0% {
+              left: 7%;
+              width: 8%;
+              opacity: 0.7;
+            }
+            50% {
+              left: 44%;
+              width: 28%;
+              opacity: 1;
+            }
+            100% {
+              left: 85%;
+              width: 8%;
+              opacity: 0.7;
+            }
+          }
+
+          /* Explicitly keep the timeline accent animated on desktop and mobile,
+             even when the browser requests reduced motion. */
+          .portfolio .process-grid::after {
+            animation: process-line-travel-final 4s linear infinite !important;
+            animation-play-state: running !important;
+            animation-play-state: running !important;
+            will-change: left, width, opacity, top !important;
+          }
+
+          @media (max-width: 640px) {
+            .portfolio .process-grid::after {
+              animation: process-line-travel-vertical-final 3.2s linear infinite !important;
+              animation-play-state: running !important;
+              animation-play-state: running !important;
+            }
+          }
+
+          /* Final mobile-only timeline repair: keep the vertical track visible
+             and animate the short gradient segment from the first node to the last.
+             Desktop timeline rules above remain unchanged. */
+          @media screen and (max-width: 640px) {
+            .portfolio .process-grid {
+              position: relative !important;
+              overflow: visible !important;
+            }
+
+            .portfolio .process-grid::before {
+              display: block !important;
+              content: "" !important;
+              position: absolute !important;
+              top: 15px !important;
+              bottom: 14px !important;
+              left: 15px !important;
+              right: auto !important;
+              width: 2px !important;
+              height: auto !important;
+              background: linear-gradient(
+                180deg,
+                #315d86 0%,
+                #58a6ef 55%,
+                #9b87f5 100%
+              ) !important;
+              z-index: 0 !important;
+            }
+
+            .portfolio .process-grid::after {
+              display: block !important;
+              content: "" !important;
+              position: absolute !important;
+              top: 15px !important;
+              bottom: auto !important;
+              left: 14px !important;
+              right: auto !important;
+              width: 4px !important;
+              height: 36px !important;
+              background: linear-gradient(
+                180deg,
+                #3478e5 0%,
+                #27b7bd 55%,
+                #8a70f4 100%
+              ) !important;
+              border: 0 !important;
+              border-radius: 999px !important;
+              box-shadow: 0 0 10px rgba(52, 120, 229, 0.32) !important;
+              animation-name: mobile-process-strip-fall !important;
+              animation-duration: 3.2s !important;
+              animation-timing-function: linear !important;
+              animation-iteration-count: infinite !important;
+              animation-delay: 0s !important;
+              animation-fill-mode: none !important;
+              animation-play-state: running !important;
+              pointer-events: none !important;
+              z-index: 4 !important;
+            }
+
+            .portfolio.dark-theme .process-grid::before {
+              background: linear-gradient(
+                180deg,
+                #60a5fa 0%,
+                #38bdf8 55%,
+                #a78bfa 100%
+              ) !important;
+            }
+
+            .portfolio.dark-theme .process-grid::after {
+              background: linear-gradient(
+                180deg,
+                #60a5fa 0%,
+                #38bdf8 55%,
+                #a78bfa 100%
+              ) !important;
+            }
+          }
+
+          @keyframes mobile-process-strip-fall {
+            0% {
+              top: 15px;
+              opacity: 0.65;
+            }
+            10% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              top: calc(100% - 50px);
+              opacity: 0.65;
+            }
+          }
+
+          /* Reliable mobile animation: use a real child element rather than a pseudo-element. */
+          .portfolio .process-motion-strip {
+            display: none;
+          }
+
+          @media screen and (max-width: 640px) {
+            .portfolio .process-grid::after {
+              display: none !important;
+              animation: none !important;
+            }
+
+            .portfolio .process-motion-strip {
+              display: block !important;
+              position: absolute !important;
+              z-index: 5 !important;
+              top: 15px;
+              left: 14px !important;
+              width: 4px !important;
+              height: 44px !important;
+              padding: 0 !important;
+              margin: 0 !important;
+              border: 0 !important;
+              border-radius: 999px !important;
+              background: linear-gradient(
+                180deg,
+                #3478e5 0%,
+                #27b7bd 55%,
+                #8a70f4 100%
+              ) !important;
+              box-shadow: 0 0 10px rgba(52, 120, 229, 0.32) !important;
+              pointer-events: none !important;
+              animation: mobile-process-child-fall 2.8s linear infinite !important;
+              animation-play-state: running !important;
+              will-change: top, opacity;
+            }
+
+            .portfolio.dark-theme .process-motion-strip {
+              background: linear-gradient(
+                180deg,
+                #60a5fa 0%,
+                #38bdf8 55%,
+                #a78bfa 100%
+              ) !important;
+            }
+          }
+
+          @keyframes mobile-process-child-fall {
+            0% {
+              top: 15px;
+              opacity: 0.55;
+            }
+            8% {
+              opacity: 1;
+            }
+            92% {
+              opacity: 1;
+            }
+            100% {
+              top: calc(100% - 50px);
+              opacity: 0.55;
+            }
+          }
         `}
       </style>
 
@@ -9464,6 +10019,7 @@ export default function Home() {
           </div>
 
           <div className="process-grid">
+            <span className="process-motion-strip" aria-hidden="true" />
             {process.map(([number, title, description]) => (
               <article className="process-item" key={number}>
                 <span>{number} / PROCESS</span>
