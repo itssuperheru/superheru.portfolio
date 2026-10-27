@@ -5,6 +5,102 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 
+/** Consistent arrow badge rendered as SVG instead of a platform-dependent emoji. */
+function ArrowBadge() {
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: "0 0 28px",
+        width: 28,
+        height: 28,
+        marginLeft: 8,
+        borderRadius: 7,
+        background: "linear-gradient(145deg, #c5d0dc 0%, #8799ad 100%)",
+        border: "1px solid rgba(47, 67, 88, 0.25)",
+        boxShadow:
+          "inset 0 1px 1px rgba(255,255,255,.65), 0 1px 2px rgba(0,0,0,.12)",
+        verticalAlign: "middle",
+      }}
+    >
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        focusable="false"
+      >
+        <path
+          d="M7 17 17 7M8 7h9v9"
+          stroke="#FFFFFF"
+          strokeWidth="3.4"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+        />
+      </svg>
+    </span>
+  );
+}
+
+/** Brand starburst drawn as vector paths so iOS, Android and desktop render identically. */
+function StarburstIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 48 48"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M24 2.5V45.5M2.5 24H45.5M8.8 8.8L39.2 39.2M39.2 8.8L8.8 39.2"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="square"
+      />
+    </svg>
+  );
+}
+
+/** Vector arrow for decorative arrows and links; avoids platform-dependent glyphs. */
+function ArrowUpRightIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M5 19 19 5M7 5h12v12"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+    </svg>
+  );
+}
+
 const projects = [
   {
     number: "01",
@@ -9322,6 +9418,363 @@ export default function Home() {
               padding-left: 7px !important;
             }
           }
+
+          .hero-symbol {
+            display: inline-block;
+            color: var(--cyan);
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.72em;
+            line-height: 1;
+            vertical-align: 0.08em;
+            margin-left: 0.08em;
+            font-variant-emoji: text;
+          }
+
+          /* Final cross-device layout guardrails */
+          html,
+          body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+          }
+
+          .portfolio,
+          .portfolio main,
+          .portfolio section,
+          .portfolio footer {
+            max-width: 100%;
+          }
+
+          img,
+          video,
+          svg,
+          canvas {
+            max-width: 100%;
+          }
+
+          @media (max-width: 640px) {
+            .container {
+              width: calc(100% - 32px) !important;
+              max-width: calc(100% - 32px) !important;
+            }
+
+            .hero {
+              grid-template-columns: minmax(0, 1fr) !important;
+              gap: 28px !important;
+              padding-top: 118px !important;
+              padding-bottom: 42px !important;
+              min-width: 0 !important;
+            }
+
+            .hero > * {
+              min-width: 0 !important;
+              width: 100%;
+              max-width: 100%;
+            }
+
+            .hero h1 {
+              max-width: 100% !important;
+              font-size: clamp(38px, 10vw, 54px) !important;
+              line-height: 1.04 !important;
+              letter-spacing: -0.065em !important;
+              overflow-wrap: anywhere;
+            }
+
+            .hero-role {
+              min-width: 0;
+              max-width: 100%;
+              font-size: clamp(16px, 4.5vw, 22px) !important;
+              letter-spacing: 0.04em !important;
+              overflow-wrap: anywhere;
+            }
+
+            .lead {
+              max-width: 100% !important;
+              font-size: clamp(20px, 5.3vw, 27px) !important;
+              line-height: 1.3 !important;
+              overflow-wrap: break-word;
+            }
+
+            .intro {
+              max-width: 100% !important;
+              font-size: 15px !important;
+              line-height: 1.75 !important;
+              overflow-wrap: break-word;
+            }
+
+            .hero-actions {
+              display: grid !important;
+              grid-template-columns: minmax(0, 1fr) !important;
+              width: 100%;
+              max-width: 100%;
+              gap: 10px !important;
+            }
+
+            .hero-actions .button {
+              width: 100% !important;
+              min-width: 0 !important;
+              max-width: 100%;
+              min-height: 56px;
+              padding: 14px 12px !important;
+              white-space: normal !important;
+              text-align: center;
+              overflow-wrap: anywhere;
+            }
+
+            .stats {
+              display: grid !important;
+              grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+              width: 100%;
+              max-width: 100%;
+              min-width: 0;
+            }
+
+            .stat {
+              min-width: 0 !important;
+              padding: 0 8px !important;
+              overflow-wrap: anywhere;
+            }
+
+            .stat:first-child {
+              padding-left: 0 !important;
+            }
+
+            .stat strong {
+              font-size: clamp(19px, 5.2vw, 25px) !important;
+              line-height: 1.15;
+              overflow-wrap: anywhere;
+            }
+
+            .stat span {
+              max-width: 100% !important;
+              font-size: 11px !important;
+              overflow-wrap: anywhere;
+              word-break: normal;
+            }
+
+            .hero-visual {
+              width: 100% !important;
+              max-width: 100% !important;
+              min-width: 0 !important;
+              min-height: clamp(330px, 105vw, 440px) !important;
+              border-radius: 28px !important;
+              overflow: hidden !important;
+            }
+
+            .portrait-frame {
+              width: 68% !important;
+              max-width: 270px !important;
+              height: 86% !important;
+              left: 18% !important;
+            }
+
+            .hero-visual:after {
+              left: 4% !important;
+              top: 8% !important;
+              font-size: clamp(22px, 6vw, 31px) !important;
+              max-width: 42%;
+            }
+
+            .hero-visual:before {
+              inset: 18% 5% 8% 10% !important;
+            }
+
+            .topbar {
+              gap: 8px !important;
+              padding-left: 16px !important;
+              padding-right: 16px !important;
+              min-height: 72px !important;
+            }
+
+            .topbar .button {
+              padding: 10px 12px !important;
+              min-width: 0 !important;
+              white-space: nowrap;
+            }
+
+            .section,
+            .contact {
+              max-width: 100%;
+              overflow: clip;
+            }
+
+            .project-grid,
+            .featured,
+            .skills-grid,
+            .awards,
+            .process-grid,
+            .contact-layout {
+              grid-template-columns: minmax(0, 1fr) !important;
+              min-width: 0 !important;
+            }
+
+            .project-card,
+            .featured > *,
+            .skill,
+            .process-item,
+            .achievement-row,
+            .contact-layout > * {
+              min-width: 0 !important;
+              max-width: 100%;
+            }
+          }
+
+          @media (max-width: 390px) {
+            .container {
+              width: calc(100% - 28px) !important;
+              max-width: calc(100% - 28px) !important;
+            }
+
+            .hero h1 {
+              font-size: clamp(35px, 9.5vw, 43px) !important;
+            }
+
+            .stats .stat {
+              padding-right: 5px !important;
+              padding-left: 6px !important;
+            }
+
+            .stats .stat:first-child {
+              padding-left: 0 !important;
+            }
+          }
+
+          /* Final responsive consistency: preserve the same design language on every device. */
+          .hero-symbol svg,
+          .spark svg,
+          .hero-headline .headline-star svg,
+          .orbit-cross svg {
+            display: block;
+            max-width: none;
+          }
+
+          .hero-symbol {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 0.78em;
+            height: 0.78em;
+            color: #164dff !important;
+            vertical-align: -0.04em !important;
+            margin-left: 0.08em !important;
+            font-size: 0.82em !important;
+          }
+
+          .hero-actions .button,
+          .all-projects-button {
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+          }
+
+          .hero-actions .button > span[aria-hidden="true"],
+          .all-projects-button > span[aria-hidden="true"] {
+            flex-shrink: 0;
+          }
+
+          .selected-projects-footer {
+            flex-wrap: wrap;
+          }
+
+          @media (min-width: 641px) {
+            .hero {
+              grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+              align-items: center;
+            }
+            .hero > :first-child,
+            .hero > .hero-visual {
+              min-width: 0;
+            }
+            .hero-actions {
+              display: flex !important;
+              flex-direction: row;
+              align-items: center;
+            }
+            .hero-actions .button {
+              width: auto;
+              white-space: nowrap;
+            }
+          }
+
+          @media (max-width: 640px) {
+            .portfolio .hero {
+              grid-template-columns: minmax(0, 1fr) !important;
+              width: calc(100% - 32px) !important;
+              max-width: calc(100% - 32px) !important;
+              margin-inline: auto;
+              gap: 26px !important;
+              padding-top: 96px !important;
+              padding-bottom: 40px !important;
+            }
+            .portfolio .hero > div:first-child,
+            .portfolio .hero-visual {
+              width: 100% !important;
+              min-width: 0 !important;
+              max-width: 100% !important;
+            }
+            .portfolio .hero h1 {
+              font-size: clamp(36px, 9.2vw, 54px) !important;
+              line-height: 1.04 !important;
+              letter-spacing: -0.065em !important;
+              overflow-wrap: normal !important;
+              word-break: normal !important;
+            }
+            .portfolio .hero-actions {
+              display: grid !important;
+              grid-template-columns: minmax(0, 1fr) !important;
+              width: 100% !important;
+              gap: 10px !important;
+            }
+            .portfolio .hero-actions .button {
+              display: inline-flex !important;
+              width: 100% !important;
+              min-width: 0 !important;
+              max-width: 100% !important;
+              min-height: 54px;
+              padding: 14px 16px !important;
+              white-space: normal !important;
+              overflow-wrap: normal !important;
+              line-height: 1.3;
+            }
+            .portfolio .hero-visual {
+              min-height: clamp(340px, 105vw, 440px) !important;
+              height: auto;
+              border-radius: 28px !important;
+            }
+            .portfolio .selected-projects-footer {
+              justify-content: center;
+              padding-top: 22px;
+            }
+            .portfolio .selected-projects-footer > span {
+              position: static !important;
+              width: 100%;
+              text-align: center;
+            }
+            .portfolio .all-projects-button {
+              display: inline-flex !important;
+              width: auto !important;
+              max-width: 100%;
+              min-height: 54px;
+              white-space: nowrap;
+            }
+          }
+
+          @media (max-width: 380px) {
+            .portfolio .hero h1 {
+              font-size: clamp(33px, 8.8vw, 38px) !important;
+            }
+            .portfolio .stats {
+              grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            }
+            .portfolio .stat {
+              padding-inline: 5px !important;
+            }
+            .portfolio .stat span {
+              font-size: 10px !important;
+              overflow-wrap: anywhere;
+            }
+          }
         `}
       </style>
 
@@ -9423,9 +9876,8 @@ export default function Home() {
 
           <h1 aria-label="Hi, I'm Heru">
             Hi, I&apos;m <span className="hero-name">Heru</span>
-            <span className="hero-name" aria-hidden="true">
-              {" "}
-              ✳
+            <span className="hero-symbol" aria-hidden="true">
+              <StarburstIcon size="0.72em" />
             </span>
           </h1>
 
@@ -9449,7 +9901,7 @@ export default function Home() {
 
           <div className="hero-actions">
             <a className="button primary" href="#work">
-              Explore selected work ↗
+              Explore selected work <ArrowBadge />
             </a>
 
             <a
@@ -9487,8 +9939,12 @@ export default function Home() {
         </div>
 
         <div className="hero-visual" aria-label="Portfolio visual">
-          <span className="spark spark-one">✳</span>
-          <span className="spark spark-two">↗</span>
+          <span className="spark spark-one" aria-hidden="true">
+            <StarburstIcon size="1em" />
+          </span>
+          <span className="spark spark-two" aria-hidden="true">
+            <ArrowUpRightIcon size="1em" />
+          </span>
           <div className="hero-headline" aria-hidden="true">
             Good
             <br />
@@ -9499,13 +9955,17 @@ export default function Home() {
             Good
             <br />
             Impact
-            <span className="headline-star">✳</span>
+            <span className="headline-star">
+              <StarburstIcon size="1em" />
+            </span>
           </div>
 
           <div className="hero-decor hero-decor-orbit" aria-hidden="true">
             <span className="orbit-dot" />
             <span className="orbit-ring" />
-            <span className="orbit-cross">✳</span>
+            <span className="orbit-cross">
+              <StarburstIcon size="1em" />
+            </span>
           </div>
           <div className="hero-decor hero-decor-palette" aria-hidden="true">
             <span />
@@ -9753,7 +10213,7 @@ export default function Home() {
                 href="/projects"
                 prefetch
               >
-                See All My Projects <span aria-hidden="true">↗</span>
+                See All My Projects <ArrowBadge />
               </Link>
             </motion.div>
           </div>
