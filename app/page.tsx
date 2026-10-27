@@ -9136,6 +9136,192 @@ export default function Home() {
               flex-basis: 100%;
             }
           }
+
+          /* Cross-device responsive fixes: desktop, Android and iPhone */
+          html,
+          body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            -webkit-text-size-adjust: 100%;
+          }
+          img,
+          video,
+          canvas,
+          svg {
+            max-width: 100%;
+          }
+          a,
+          button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+          }
+          .portfolio {
+            width: 100%;
+            min-width: 0;
+            overflow-x: clip;
+          }
+          .hero > *,
+          .container,
+          .hero-copy,
+          .hero-visual {
+            min-width: 0;
+          }
+          .hero-name {
+            overflow-wrap: normal;
+            word-break: normal;
+          }
+          @media (max-width: 640px) {
+            .container {
+              width: calc(100% - 36px) !important;
+            }
+            .topbar {
+              padding-left: max(18px, env(safe-area-inset-left)) !important;
+              padding-right: max(18px, env(safe-area-inset-right)) !important;
+              min-height: calc(72px + env(safe-area-inset-top)) !important;
+              padding-top: env(safe-area-inset-top);
+            }
+            .hero {
+              grid-template-columns: minmax(0, 1fr) !important;
+              gap: 28px !important;
+              padding-top: calc(112px + env(safe-area-inset-top)) !important;
+              padding-bottom: 48px !important;
+            }
+            h1 {
+              font-size: clamp(40px, 10.5vw, 60px) !important;
+              line-height: 1.04 !important;
+              letter-spacing: -0.065em !important;
+              overflow-wrap: normal !important;
+            }
+            .hero-role {
+              min-height: 30px;
+              font-size: clamp(15px, 4.2vw, 21px) !important;
+              letter-spacing: 0.045em !important;
+              gap: 8px !important;
+              margin-bottom: 18px !important;
+              overflow-wrap: anywhere;
+            }
+            .lead {
+              font-size: clamp(21px, 5.6vw, 28px) !important;
+              line-height: 1.32 !important;
+              overflow-wrap: break-word;
+            }
+            .intro {
+              font-size: 15px !important;
+              line-height: 1.8 !important;
+            }
+            .hero-actions {
+              display: grid !important;
+              grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+              gap: 10px !important;
+            }
+            .hero-actions .button {
+              min-width: 0;
+              min-height: 54px;
+              padding: 12px 10px !important;
+              text-align: center;
+              font-size: 12px !important;
+              line-height: 1.35;
+              white-space: normal;
+            }
+            .stats {
+              display: grid !important;
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+              width: 100%;
+            }
+            .stat {
+              min-width: 0;
+              padding: 0 10px !important;
+            }
+            .stat:first-child {
+              padding-left: 0 !important;
+            }
+            .stat strong {
+              font-size: clamp(18px, 5.3vw, 25px) !important;
+              white-space: nowrap;
+            }
+            .stat span {
+              font-size: 10px !important;
+              line-height: 1.5;
+              overflow-wrap: anywhere;
+            }
+            .hero-visual {
+              width: 100%;
+              min-height: clamp(390px, 125vw, 520px) !important;
+              height: auto !important;
+              border-radius: 24px !important;
+            }
+            .hero-visual:after {
+              font-size: clamp(21px, 6.2vw, 30px) !important;
+              line-height: 1.02 !important;
+              left: 4% !important;
+              top: 8% !important;
+            }
+            .hero-visual .portrait-frame {
+              left: 8% !important;
+              width: 64% !important;
+              height: 76% !important;
+              bottom: 0 !important;
+            }
+            .hero-visual .float-tag {
+              width: 31% !important;
+              right: 3% !important;
+              min-height: 42px !important;
+              padding: 8px 5px !important;
+              font-size: clamp(8px, 2.5vw, 11px) !important;
+              letter-spacing: 0.025em !important;
+            }
+            .hero-visual .tag-one {
+              top: 10% !important;
+            }
+            .hero-visual .tag-two {
+              top: 25% !important;
+            }
+            .hero-visual .tag-three {
+              top: 40% !important;
+            }
+            .hero-visual .tag-four {
+              top: 55% !important;
+            }
+            .hero-visual .tag-five {
+              top: 70% !important;
+            }
+            .section {
+              padding: 60px 0 !important;
+            }
+            .section-head {
+              align-items: flex-start !important;
+              flex-direction: column;
+              gap: 16px !important;
+            }
+            .project-grid {
+              grid-template-columns: minmax(0, 1fr) !important;
+            }
+            .featured {
+              grid-template-columns: minmax(0, 1fr) !important;
+            }
+            .skills-grid {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+            .awards {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+          }
+          @media (max-width: 390px) {
+            .container {
+              width: calc(100% - 28px) !important;
+            }
+            .hero-actions {
+              grid-template-columns: minmax(0, 1fr);
+            }
+            .hero-visual {
+              min-height: 390px !important;
+            }
+            .stat {
+              padding-right: 6px !important;
+              padding-left: 7px !important;
+            }
+          }
         `}
       </style>
 
