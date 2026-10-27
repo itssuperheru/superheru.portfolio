@@ -8723,6 +8723,113 @@ export default function Home() {
               opacity: 0.55;
             }
           }
+
+          /* iPhone Safari-only responsive safeguards.
+             These overrides are limited to narrow WebKit screens so desktop styling stays intact. */
+          @supports (-webkit-touch-callout: none) {
+            @media screen and (max-width: 640px) {
+              html {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: clip;
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+                scroll-padding-top: 100px;
+              }
+
+              body,
+              .portfolio {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: clip;
+              }
+
+              .portfolio *,
+              .portfolio *::before,
+              .portfolio *::after {
+                min-width: 0;
+              }
+
+              .portfolio .container {
+                width: calc(100% - 32px) !important;
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+              }
+
+              .portfolio .topbar {
+                top: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                max-width: 100%;
+                padding-top: calc(12px + env(safe-area-inset-top, 0px));
+                padding-right: max(16px, env(safe-area-inset-right, 0px));
+                padding-bottom: 12px;
+                padding-left: max(16px, env(safe-area-inset-left, 0px));
+              }
+
+              .portfolio .hero {
+                min-width: 0;
+                grid-template-columns: minmax(0, 1fr);
+                padding-top: 112px;
+                scroll-margin-top: 100px;
+              }
+
+              .portfolio .hero > *,
+              .portfolio .about-grid > *,
+              .portfolio .featured > *,
+              .portfolio .project-grid > *,
+              .portfolio .skills-grid > *,
+              .portfolio .awards > *,
+              .portfolio .section-head > * {
+                min-width: 0;
+                max-width: 100%;
+              }
+
+              .portfolio h1,
+              .portfolio h2,
+              .portfolio h3,
+              .portfolio p,
+              .portfolio a,
+              .portfolio span,
+              .portfolio strong {
+                overflow-wrap: anywhere;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+              }
+
+              .portfolio img,
+              .portfolio video,
+              .portfolio iframe,
+              .portfolio svg {
+                max-width: 100%;
+              }
+
+              .portfolio .hero-visual {
+                width: 100%;
+                min-width: 0;
+                max-width: 100%;
+              }
+
+              .portfolio .hero-actions,
+              .portfolio .contact-links {
+                min-width: 0;
+                flex-wrap: wrap;
+              }
+
+              .portfolio .button {
+                max-width: 100%;
+                white-space: normal;
+                overflow-wrap: anywhere;
+              }
+
+              .portfolio section[id],
+              .portfolio footer[id] {
+                scroll-margin-top: 100px;
+              }
+            }
+          }
         `}
       </style>
 
