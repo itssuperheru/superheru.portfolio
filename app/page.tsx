@@ -5877,12 +5877,13 @@ export default function Home() {
             box-shadow: 0 8px 18px
               color-mix(in srgb, var(--skill-accent) 24%, transparent);
           }
-          /* The prototype icon is a UI/cursor SVG, not a green emoji badge. */
+          /* Keep every skill icon badge in the same navy-and-white palette. */
           .skills-showcase-grid .skill-icon-prototype {
-            background: #eaf2ff !important;
-            color: #315d86 !important;
-            border: 1px solid #d4e2f6;
-            box-shadow: none !important;
+            background: var(--skill-accent) !important;
+            color: #ffffff !important;
+            border: 0 !important;
+            box-shadow: 0 8px 18px
+              color-mix(in srgb, var(--skill-accent) 24%, transparent) !important;
           }
           .skills-showcase-grid .skill-icon svg {
             display: block;
@@ -10304,7 +10305,8 @@ export default function Home() {
               max-width: calc(100% - 32px) !important;
               margin-inline: auto;
               gap: 26px !important;
-              padding-top: 96px !important;
+              /* The mobile navbar is in normal flow; keep only a small gap below it. */
+              padding-top: 28px !important;
               padding-bottom: 40px !important;
             }
             .portfolio .hero > div:first-child,
