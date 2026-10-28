@@ -96,6 +96,555 @@ function ArrowUpRightIcon({ size = "1em" }: { size?: string }) {
   );
 }
 
+/** Fixed-vector symbols for skill cards; never relies on OS emoji fonts. */
+function CommandKeyIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M8 8V5.5a2.5 2.5 0 1 0-2.5 2.5H8Zm0 0h8m0 0V5.5a2.5 2.5 0 1 1 2.5 2.5H16Zm0 0v8m0 0h2.5a2.5 2.5 0 1 1-2.5 2.5V16Zm0 0H8m0 0v2.5A2.5 2.5 0 1 1 5.5 16H8Zm0 0V8"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function EnterKeyIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M20 5v6a3 3 0 0 1-3 3H5m0 0 4-4m-4 4 4 4"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowDownIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M12 4v16M5 13l7 7 7-7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function MenuIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M4 6h16M4 12h16M4 18h16"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="m6 6 12 12M18 6 6 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function SunIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function MoonIcon({ size = "1em" }: { size?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+      style={{
+        display: "inline-block",
+        flex: "0 0 auto",
+        verticalAlign: "middle",
+      }}
+    >
+      <path
+        d="M20.5 15.5A8.7 8.7 0 0 1 8.5 3.5a8.9 8.9 0 1 0 12 12Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SkillSymbolIcon({
+  symbol,
+  size = "1em",
+}: {
+  symbol: string;
+  size?: string;
+}) {
+  const shared = {
+    "aria-hidden": true as const,
+    viewBox: "0 0 48 48",
+    width: size,
+    height: size,
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    focusable: false as const,
+    style: {
+      display: "block" as const,
+      flex: "0 0 auto" as const,
+      overflow: "visible" as const,
+    },
+  };
+
+  switch (symbol) {
+    case "design":
+      return (
+        <svg {...shared}>
+          <rect
+            x="7"
+            y="7"
+            width="15"
+            height="15"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <rect
+            x="26"
+            y="7"
+            width="15"
+            height="15"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <rect
+            x="7"
+            y="26"
+            width="15"
+            height="15"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <rect
+            x="26"
+            y="26"
+            width="15"
+            height="15"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+        </svg>
+      );
+    case "wireframe":
+      return (
+        <svg {...shared}>
+          <rect
+            x="6"
+            y="7"
+            width="36"
+            height="34"
+            rx="3"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <path
+            d="M6 18h36M6 29h36M18 7v34M30 7v34"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+        </svg>
+      );
+    case "research":
+      return (
+        <svg {...shared}>
+          <circle
+            cx="21"
+            cy="20"
+            r="12"
+            stroke="currentColor"
+            strokeWidth="3.5"
+          />
+          <path
+            d="m30 29 10 10"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "prototype":
+      return (
+        <svg {...shared}>
+          <rect
+            x="5"
+            y="6"
+            width="29"
+            height="25"
+            rx="3"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <path d="M5 13h29" stroke="currentColor" strokeWidth="3" />
+          <circle cx="10" cy="9.5" r="1" fill="currentColor" />
+          <circle cx="14" cy="9.5" r="1" fill="currentColor" />
+          <path
+            d="m25 25 14 15-1-8 7-1-20-6Z"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "testing":
+      return (
+        <svg {...shared}>
+          <rect
+            x="9"
+            y="5"
+            width="30"
+            height="38"
+            rx="3"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <path
+            d="M15 15h18M15 22h18M15 29h18M15 36h12"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "systems":
+      return (
+        <svg {...shared}>
+          <path
+            d="M8 39 39 8M17 8h22v22"
+            stroke="currentColor"
+            strokeWidth="3.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+          />
+        </svg>
+      );
+    case "visual":
+      return (
+        <svg {...shared}>
+          <path
+            d="m10 34 2-8L31 7l10 10-19 19-8 2Z"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+          <path
+            d="m27 11 10 10M12 26l10 10"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+        </svg>
+      );
+    case "strategy":
+      return (
+        <svg {...shared}>
+          <circle
+            cx="24"
+            cy="24"
+            r="18"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <circle
+            cx="24"
+            cy="24"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <circle cx="24" cy="24" r="3.5" fill="currentColor" />
+        </svg>
+      );
+    default:
+      return <StarburstIcon size={size} />;
+  }
+}
+
+function AchievementSymbolIcon({ name }: { name: string }) {
+  const common = {
+    viewBox: "0 0 48 48",
+    width: "24px",
+    height: "24px",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-hidden": true as const,
+    focusable: false as const,
+    style: {
+      display: "block" as const,
+      flex: "0 0 auto" as const,
+      maxWidth: "none" as const,
+    },
+  };
+
+  switch (name) {
+    case "tourism":
+      return (
+        <svg {...common} fill="none">
+          <path
+            d="M14 8h20v10a10 10 0 0 1-20 0V8Z"
+            fill="#F6C445"
+            stroke="#B88016"
+            strokeWidth="2.5"
+          />
+          <path
+            d="M14 12H8v5a8 8 0 0 0 8 8M34 12h6v5a8 8 0 0 1-8 8"
+            stroke="#B88016"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          <path
+            d="M24 28v7m-7 5h14m-11-5h8"
+            stroke="#B88016"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "integrity":
+      return (
+        <svg {...common} fill="none">
+          <path
+            d="M24 4 40 10v12c0 10-7 17-16 22C15 39 8 32 8 22V10L24 4Z"
+            fill="#E56B65"
+            stroke="#A94342"
+            strokeWidth="2.5"
+          />
+          <path
+            d="m18 24 4 4 9-10"
+            stroke="#FFF7F1"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "technology":
+      return (
+        <svg {...common} fill="none">
+          <rect
+            x="7"
+            y="7"
+            width="34"
+            height="25"
+            rx="3"
+            fill="#263746"
+            stroke="#172635"
+            strokeWidth="2"
+          />
+          <rect x="11" y="11" width="26" height="17" rx="1" fill="#B8DDF4" />
+          <path
+            d="M3 37h42l-4 5H7l-4-5Z"
+            fill="#718696"
+            stroke="#263746"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "ux-competition":
+      return (
+        <svg {...common} fill="none">
+          <path d="M14 5h8v18l-4 4-4-4V5Z" fill="#D94B53" />
+          <path d="M26 5h8v18l-4 4-4-4V5Z" fill="#3978BE" />
+          <circle
+            cx="24"
+            cy="28"
+            r="13"
+            fill="#F6C445"
+            stroke="#B88016"
+            strokeWidth="2.5"
+          />
+          <path
+            d="m24 19 2.6 5.4 6 .9-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.9L24 19Z"
+            fill="#FFF8D9"
+          />
+        </svg>
+      );
+    case "design-competition":
+      return (
+        <svg {...common} fill="none">
+          <path
+            d="M24 5C13 5 5 13 5 23c0 9 7 16 16 16h3a4 4 0 0 0 3-7c-2-3 0-6 4-6 5 0 9-3 9-8C40 11 33 5 24 5Z"
+            fill="#F6D3A5"
+            stroke="#A96C3B"
+            strokeWidth="2.5"
+          />
+          <circle cx="16" cy="17" r="3" fill="#E65B5B" />
+          <circle cx="25" cy="13" r="3" fill="#4D9CE8" />
+          <circle cx="32" cy="19" r="3" fill="#59B77A" />
+          <circle cx="17" cy="27" r="3" fill="#E2B83E" />
+        </svg>
+      );
+    case "poland":
+      return (
+        <svg {...common}>
+          <rect
+            x="5"
+            y="9"
+            width="38"
+            height="30"
+            rx="3"
+            fill="#FFFFFF"
+            stroke="#CED6DF"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M6 24h36v12a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V24Z"
+            fill="#DC3545"
+          />
+        </svg>
+      );
+    case "malaysia":
+      return (
+        <svg {...common}>
+          <rect
+            x="4"
+            y="8"
+            width="40"
+            height="32"
+            rx="3"
+            fill="#FFFFFF"
+            stroke="#D4DCE5"
+            strokeWidth="1"
+          />
+          <path
+            d="M5 11h38v4H5Zm0 8h38v4H5Zm0 8h38v4H5Zm0 8h38v2a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Z"
+            fill="#D92F3A"
+          />
+          <path d="M5 11a3 3 0 0 1 3-3h14v16H5Z" fill="#2459A6" />
+          <path d="M14 11a5 5 0 1 0 5 8 6 6 0 1 1-5-8Z" fill="#FFD24A" />
+          <path
+            d="m19 11 .9 2 2.1.2-1.6 1.4.5 2-1.9-1-1.9 1 .5-2-1.6-1.4 2.1-.2Z"
+            fill="#FFD24A"
+          />
+        </svg>
+      );
+    default:
+      return <StarburstIcon size="24px" />;
+  }
+}
+
 const projects = [
   {
     number: "01",
@@ -106,7 +655,7 @@ const projects = [
     link: "https://www.figma.com/design/kK1RyKe1aKd74FInwNh8FJ/AFEKSI-WEB-FIX?node-id=4669-7448&p=f&t=yKEfBdmdABZLyR5x-0",
     label: "View design",
     tone: "mint",
-    symbol: "✦",
+    symbol: "star",
     artLabel: "DESIGN · CLARITY · CARE",
   },
   {
@@ -118,7 +667,7 @@ const projects = [
     link: "https://agrobiomassnusantara.com/",
     label: "View website",
     tone: "green",
-    symbol: "↗",
+    symbol: "arrow",
     artLabel: "BIOMASS · ENERGY · FUTURE",
   },
   {
@@ -130,7 +679,7 @@ const projects = [
     link: "https://bedenbender.queryflow.id/",
     label: "View website",
     tone: "blue",
-    symbol: "✳",
+    symbol: "star",
     artLabel: "MOBILE · SERVICE · TRUST",
   },
   {
@@ -143,7 +692,7 @@ const projects = [
     link: "https://www.figma.com/design/l2s3R0tbTiw2BtYgCHoJVp/Becatur?node-id=1-8&t=CTuBuqnSMWLpUJWW-1",
     label: "View case study",
     tone: "cyan",
-    symbol: "↗",
+    symbol: "arrow",
     artLabel: "BOOK · CONNECT · RIDE",
   },
   {
@@ -155,7 +704,7 @@ const projects = [
     link: "https://bit.ly/PortofolioHeruu",
     label: "View portfolio",
     tone: "startoops",
-    symbol: "✳",
+    symbol: "star",
     artLabel: "DESIGN · BUILD · GROW",
   },
   {
@@ -167,7 +716,7 @@ const projects = [
     link: "https://bit.ly/PortofolioHeruu",
     label: "View portfolio",
     tone: "blue",
-    symbol: "✦",
+    symbol: "star",
     artLabel: "EXPLORE · DISCOVER · VISIT",
   },
 ];
@@ -269,49 +818,49 @@ const process = [
 
 const achievements = [
   [
-    "🏆",
+    "tourism",
     "Favorite Tourism Ambassador",
     "Magetan Regency · 2025",
     "Tourism",
     "blue",
   ],
   [
-    "🛡️",
+    "integrity",
     "Patriot Integritas Muda",
     "East Java · 2025",
     "Leadership & Impact",
     "green",
   ],
   [
-    "💻",
+    "technology",
     "Hackfest Finalist",
     "Universitas Ciputra · 2024",
     "Technology",
     "purple",
   ],
   [
-    "🥇",
+    "ux-competition",
     "1st Runner-Up — User Experience Design",
     "Information Systems Competition · 2022",
     "UX Competition",
     "orange",
   ],
   [
-    "🎨",
+    "design-competition",
     "UI/UX Design Competition Finalist",
     "Universitas PGRI Madiun · 2023",
     "UI/UX Design",
     "pink",
   ],
   [
-    "🇵🇱",
+    "poland",
     "Student Exchange",
     "University of Łódź, Poland · 2025",
     "International Experience",
     "sky",
   ],
   [
-    "🇲🇾",
+    "malaysia",
     "Study Exchange",
     "Universiti Malaya, Malaysia · 2025",
     "International Experience",
@@ -4006,15 +4555,31 @@ export default function Home() {
             letter-spacing: 0.16em;
             text-transform: uppercase;
           }
+          /* Keep this brand star as a flat SVG; never render it as an OS emoji/sticker. */
           .about-visual-mark {
-            color: #21a6a1;
-            font-size: 34px;
+            color: #164dff !important;
+            font-size: 1rem;
             line-height: 1;
-            display: inline-block;
-            transform-origin: center;
-            animation:
-              about-mark-float 2.8s ease-in-out infinite,
-              about-mark-spin 8s linear infinite;
+            display: inline-grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            padding: 0 !important;
+            background: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            filter: none !important;
+            transform: none !important;
+            animation: none !important;
+          }
+          .about-visual-mark svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent !important;
+            filter: none !important;
           }
           .about-visual-title {
             max-width: 290px;
@@ -5305,12 +5870,27 @@ export default function Home() {
             place-items: center;
             width: 44px;
             height: 44px;
-            border-radius: 14px;
+            border-radius: 12px;
             background: var(--skill-accent);
             color: white;
             font-size: 25px;
             box-shadow: 0 8px 18px
               color-mix(in srgb, var(--skill-accent) 24%, transparent);
+          }
+          /* The prototype icon is a UI/cursor SVG, not a green emoji badge. */
+          .skills-showcase-grid .skill-icon-prototype {
+            background: #eaf2ff !important;
+            color: #315d86 !important;
+            border: 1px solid #d4e2f6;
+            box-shadow: none !important;
+          }
+          .skills-showcase-grid .skill-icon svg {
+            display: block;
+            width: 24px;
+            height: 24px;
+            max-width: none;
+            background: transparent !important;
+            filter: none !important;
           }
           .skills-showcase-grid .skill-card h3 {
             position: relative;
@@ -5373,11 +5953,17 @@ export default function Home() {
             top: 32px;
             z-index: 0;
             color: var(--skill-accent);
-            opacity: 0.08;
-            font-size: 100px;
+            opacity: 0.07;
+            font-size: 76px;
             line-height: 1;
             transform: rotate(-14deg);
             pointer-events: none;
+          }
+          .skill-decor svg {
+            display: block;
+            width: 1em;
+            height: 1em;
+            max-width: none;
           }
           .skill-card:nth-child(2n) .skill-decor {
             transform: rotate(12deg) scale(0.9);
@@ -5396,6 +5982,12 @@ export default function Home() {
             }
           }
           @media (max-width: 680px) {
+            .skills-showcase-grid .skill-decor {
+              top: 44px;
+              right: 14px;
+              font-size: 60px;
+              opacity: 0.06;
+            }
             .skills-showcase-heading {
               grid-template-columns: 1fr;
               gap: 18px;
@@ -6267,6 +6859,12 @@ export default function Home() {
             background: #e9eef2;
             color: #315d86;
             font-size: 20px;
+          }
+          .achievement-icon svg {
+            display: block;
+            width: 24px;
+            height: 24px;
+            max-width: none;
           }
           .achievement-copy {
             display: flex;
@@ -9834,7 +10432,15 @@ export default function Home() {
           aria-controls="main-navigation"
           onClick={() => setMenuOpen((open) => !open)}
         >
-          {menuOpen ? "Close ✕" : "Menu ☰"}
+          {menuOpen ? (
+            <>
+              Close <CloseIcon size="14px" />
+            </>
+          ) : (
+            <>
+              Menu <MenuIcon size="14px" />
+            </>
+          )}
         </button>
 
         <nav
@@ -9888,7 +10494,15 @@ export default function Home() {
           }
           aria-pressed={darkMode}
         >
-          {darkMode ? "☀ Light" : "☾ Dark"}
+          {darkMode ? (
+            <>
+              <SunIcon size="14px" /> Light
+            </>
+          ) : (
+            <>
+              <MoonIcon size="14px" /> Dark
+            </>
+          )}
         </button>
 
         <a className="button primary" href="#contact">
@@ -9946,7 +10560,7 @@ export default function Home() {
               target="_blank"
               rel="noreferrer"
             >
-              Open my CV ↓
+              Open my CV <ArrowDownIcon size="14px" />
             </a>
           </div>
 
@@ -10018,26 +10632,62 @@ export default function Home() {
 
           {/* Additional editorial doodles based on the user's reference image. */}
           <div className="hero-micro-card" aria-hidden="true">
-            <span className="micro-card-star">✦</span>
+            <span className="micro-card-star">
+              <StarburstIcon size="1em" />
+            </span>
             <span>CREATIVE</span>
             <span>SOLUTIONS</span>
             <span>FOR A BETTER</span>
             <span>TOMORROW</span>
           </div>
           <span className="hero-doodle hero-doodle-squiggle" aria-hidden="true">
-            〰
+            <svg
+              viewBox="0 0 48 24"
+              width="1.8em"
+              height="1em"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 16C8 2 14 28 20 14S32 2 37 14 44 22 46 10"
+                stroke="currentColor"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+            </svg>
           </span>
           <span className="hero-doodle hero-doodle-stroke" aria-hidden="true">
-            ／
+            <svg
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 21 21 3"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="square"
+              />
+            </svg>
           </span>
           <span className="hero-doodle hero-doodle-sparkle" aria-hidden="true">
-            ✦
+            <StarburstIcon size="1em" />
           </span>
           <span className="hero-doodle hero-doodle-cursor" aria-hidden="true">
-            ➤
+            <svg
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M3 2 22 13.5 13.8 15.1 10.6 22 3 2Z" />
+            </svg>
           </span>
           <span className="hero-doodle hero-doodle-rays" aria-hidden="true">
-            〃
+            <StarburstIcon size="1em" />
           </span>
           <div className="hero-dot-matrix" aria-hidden="true">
             {Array.from({ length: 15 }, (_, i) => (
@@ -10060,7 +10710,9 @@ export default function Home() {
           </svg>
 
           <div className="hero-note" aria-label="Decorative keyboard">
-            <span>⌘</span>
+            <span>
+              <CommandKeyIcon size="16px" />
+            </span>
             <span>F</span>
             <span>G</span>
             <span>H</span>
@@ -10069,11 +10721,15 @@ export default function Home() {
             </span>
             <span>U</span>
             <span>I</span>
-            <span>✳</span>
+            <span>
+              <StarburstIcon size="1em" />
+            </span>
             <span>X</span>
             <span>O</span>
             <span className="keyboard-space">SPACE</span>
-            <span>↵</span>
+            <span>
+              <EnterKeyIcon size="16px" />
+            </span>
           </div>
 
           <motion.div
@@ -10165,7 +10821,7 @@ export default function Home() {
                         className="selected-project-symbol"
                         aria-hidden="true"
                       >
-                        {project.symbol === "↗" ? (
+                        {project.symbol === "arrow" ? (
                           <ArrowUpRightIcon size="1em" />
                         ) : (
                           <StarburstIcon size="1em" />
@@ -10305,7 +10961,7 @@ export default function Home() {
             <div className="about-visual-top">
               <span className="about-visual-label">My design approach</span>
               <span className="about-visual-mark" aria-hidden="true">
-                ✳
+                <StarburstIcon size="1em" />
               </span>
             </div>
             <div>
@@ -10363,7 +11019,7 @@ export default function Home() {
               {experiences.map((item, index) => {
                 const meta = [
                   {
-                    icon: "▣",
+                    icon: "design",
                     tone: "blue",
                     tags: [
                       "UI/UX Design",
@@ -10383,7 +11039,7 @@ export default function Home() {
                     ],
                   },
                   {
-                    icon: "✿",
+                    icon: "visual",
                     tone: "violet",
                     tags: [
                       "Product Design",
@@ -10393,7 +11049,7 @@ export default function Home() {
                     ],
                   },
                   {
-                    icon: "♥",
+                    icon: "strategy",
                     tone: "pink",
                     tags: [
                       "UI/UX Design",
@@ -10403,7 +11059,7 @@ export default function Home() {
                     ],
                   },
                   {
-                    icon: "▣",
+                    icon: "design",
                     tone: "rose",
                     tags: [
                       "UI/UX Design",
@@ -10423,7 +11079,7 @@ export default function Home() {
                     ],
                   },
                   {
-                    icon: "❋",
+                    icon: "wireframe",
                     tone: "green",
                     tags: [
                       "UI/UX Design",
@@ -10433,11 +11089,15 @@ export default function Home() {
                     ],
                   },
                   {
-                    icon: "✳",
+                    icon: "prototype",
                     tone: "teal",
                     tags: ["UI/UX Design", "Collaboration", "Design Thinking"],
                   },
-                ][index] || { icon: "✳", tone: "blue", tags: ["UI/UX Design"] };
+                ][index] || {
+                  icon: "prototype",
+                  tone: "blue",
+                  tags: ["UI/UX Design"],
+                };
                 const dateParts = item.date.split(" — ");
 
                 return (
@@ -10451,7 +11111,13 @@ export default function Home() {
                     <div
                       className={`experience-node experience-node-${meta.tone}`}
                     >
-                      <span>{meta.icon}</span>
+                      <span>
+                        {meta.icon === "IN" ? (
+                          "IN"
+                        ) : (
+                          <SkillSymbolIcon symbol={meta.icon} size="22px" />
+                        )}
+                      </span>
                     </div>
 
                     <motion.article
@@ -10529,56 +11195,56 @@ export default function Home() {
             {skills.map((skill, index) => {
               const skillDetails = [
                 {
-                  icon: "◉",
+                  icon: "design",
                   tone: "pink",
                   description:
                     "Designing user interfaces, prototypes, and design systems for digital products.",
                   tags: ["UI Design", "Prototyping", "Design System"],
                 },
                 {
-                  icon: "▦",
+                  icon: "wireframe",
                   tone: "blue",
                   description:
                     "Structuring ideas into clear, intuitive, and user-friendly flows.",
                   tags: ["User Flow", "Information Architecture"],
                 },
                 {
-                  icon: "⌕",
+                  icon: "research",
                   tone: "green",
                   description:
                     "Understanding user needs through interviews, surveys, and usability testing.",
                   tags: ["Interviews", "Surveys", "Insights"],
                 },
                 {
-                  icon: "✳",
+                  icon: "prototype",
                   tone: "blue",
                   description:
                     "Turning concepts into interactive experiences to test ideas early.",
                   tags: ["Figma", "Interaction", "Testing"],
                 },
                 {
-                  icon: "▤",
+                  icon: "testing",
                   tone: "orange",
                   description:
                     "Evaluating interfaces to identify friction and improve usability.",
                   tags: ["Test Plans", "Feedback", "Iteration"],
                 },
                 {
-                  icon: "↗",
+                  icon: "systems",
                   tone: "purple",
                   description:
                     "Creating consistent components, patterns, and reusable guidelines.",
                   tags: ["Components", "Style Guide", "Scalability"],
                 },
                 {
-                  icon: "✎",
+                  icon: "visual",
                   tone: "sky",
                   description:
                     "Crafting clear layouts, typography, and visual hierarchy.",
                   tags: ["Layout", "Typography", "Color"],
                 },
                 {
-                  icon: "◎",
+                  icon: "strategy",
                   tone: "mint",
                   description:
                     "Connecting user needs, business goals, and design decisions.",
@@ -10610,12 +11276,10 @@ export default function Home() {
                     <span className="skill-number">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="skill-icon">
-                      {skillDetails.icon === "↗" ? (
-                        <ArrowUpRightIcon size="24px" />
-                      ) : (
-                        skillDetails.icon
-                      )}
+                    <span
+                      className={`skill-icon skill-icon-${skillDetails.icon}`}
+                    >
+                      <SkillSymbolIcon symbol={skillDetails.icon} size="24px" />
                     </span>
                   </div>
                   <h3>{skill}</h3>
@@ -10629,11 +11293,7 @@ export default function Home() {
                     <ArrowUpRightIcon size="18px" />
                   </span>
                   <span className="skill-decor" aria-hidden="true">
-                    {skillDetails.icon === "↗" ? (
-                      <ArrowUpRightIcon size="1em" />
-                    ) : (
-                      skillDetails.icon
-                    )}
+                    <SkillSymbolIcon symbol={skillDetails.icon} size="1em" />
                   </span>
                 </motion.article>
               );
@@ -11189,7 +11849,7 @@ export default function Home() {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="achievement-icon" aria-hidden="true">
-                    {icon}
+                    <AchievementSymbolIcon name={String(icon)} />
                   </span>
                   <div className="achievement-copy">
                     <small className="achievement-category">{category}</small>
