@@ -2625,8 +2625,8 @@ export default function Home() {
               padding: 0 16px;
               border-radius: 10px;
               color: #ffffff;
-              background: #3b82f6;
-              border: 1px solid #3b82f6;
+              background: var(--cyan);
+              border: 1px solid var(--cyan);
               font-weight: 700;
               text-decoration: none;
             }
@@ -2634,8 +2634,8 @@ export default function Home() {
             .topbar > .nav .mobile-connect:hover,
             .topbar > .nav .mobile-connect:focus-visible {
               color: #ffffff;
-              background: #2563eb;
-              border-color: #2563eb;
+              background: var(--cyan-dark);
+              border-color: var(--cyan-dark);
             }
 
             /* Keep the theme switch available on mobile; hide only the extra CTA. */
