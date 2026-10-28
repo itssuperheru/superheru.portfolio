@@ -10411,6 +10411,11 @@ export default function Home() {
             width: 20px;
             height: 20px;
           }
+          /* Targeted request: remove only the star covering the headline and the tail-like squiggle. */
+          .hero-visual > .spark.spark-one,
+          .hero-visual > .hero-doodle-squiggle {
+            display: none !important;
+          }
         `}
       </style>
 
