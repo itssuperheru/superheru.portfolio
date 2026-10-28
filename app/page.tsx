@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 
-/** Consistent arrow badge rendered as SVG instead of a platform-dependent emoji. */
+/** Simple diagonal arrow matching the hero button reference. */
 function ArrowBadge() {
   return (
     <span
@@ -14,32 +14,27 @@ function ArrowBadge() {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        flex: "0 0 28px",
-        width: 28,
-        height: 28,
-        marginLeft: 8,
-        borderRadius: 7,
-        background: "linear-gradient(145deg, #c5d0dc 0%, #8799ad 100%)",
-        border: "1px solid rgba(47, 67, 88, 0.25)",
-        boxShadow:
-          "inset 0 1px 1px rgba(255,255,255,.65), 0 1px 2px rgba(0,0,0,.12)",
+        flex: "0 0 20px",
+        width: 20,
+        height: 20,
+        marginLeft: 2,
         verticalAlign: "middle",
       }}
     >
       <svg
-        width="19"
-        height="19"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         focusable="false"
       >
         <path
-          d="M7 17 17 7M8 7h9v9"
-          stroke="#FFFFFF"
-          strokeWidth="3.4"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
+          d="M6 18 18 6M8 6h10v10"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </span>
@@ -9774,6 +9769,40 @@ export default function Home() {
               font-size: 10px !important;
               overflow-wrap: anywhere;
             }
+          }
+
+          /* Only adjust the two hero buttons and the arrow badge. */
+          .portfolio .hero-actions > .button {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px !important;
+            height: 54px;
+            padding: 0 18px !important;
+            border-radius: 12px !important;
+            font-size: 14px !important;
+            line-height: 1.2 !important;
+            gap: 8px;
+          }
+
+          .portfolio
+            .hero-actions
+            > .button.primary
+            > span[aria-hidden="true"] {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+            margin-left: 2px;
+          }
+
+          .portfolio
+            .hero-actions
+            > .button.primary
+            > span[aria-hidden="true"]
+            svg {
+            width: 20px;
+            height: 20px;
           }
         `}
       </style>
