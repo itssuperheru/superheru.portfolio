@@ -871,7 +871,7 @@ const achievements = [
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [activeNav, setActiveNav] = useState("");
+  const [activeNav, setActiveNav] = useState("About");
   const [typedRole, setTypedRole] = useState("");
   const shouldReduceMotion = useReducedMotion();
   const [projectViews, setProjectViews] = useState<Record<string, number>>({});
@@ -906,6 +906,80 @@ export default function Home() {
       return next;
     });
   };
+
+  // Keep the navbar highlight in sync with the section currently being viewed.
+  // About represents the hero at the top of the page.
+  useEffect(() => {
+    const sections = [
+      { id: "home", label: "About" },
+      { id: "work", label: "Work" },
+      { id: "experience", label: "Experience" },
+      { id: "skills", label: "Skills" },
+      { id: "contact", label: "Contact" },
+    ];
+
+    let frameId = 0;
+
+    const updateActiveNav = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const navbar = document.querySelector<HTMLElement>(".topbar");
+        const navbarHeight = navbar?.getBoundingClientRect().height ?? 82;
+        const activationLine = navbarHeight + 36;
+        const viewportHeight = window.innerHeight;
+        const documentElement = document.documentElement;
+        const contactSection = document.getElementById("contact");
+        const contactTop = contactSection?.getBoundingClientRect().top;
+
+        // Contact is a tall footer. Activate it as soon as it occupies a
+        // meaningful part of the viewport, not only when the page is almost
+        // at its final pixel. The bottom check covers short viewports/footers.
+        const contactIsProminent =
+          contactTop !== undefined && contactTop <= viewportHeight * 0.58;
+        const bottomActivationGap = Math.max(100, viewportHeight * 0.18);
+        const isNearPageBottom =
+          window.scrollY + viewportHeight >=
+          documentElement.scrollHeight - bottomActivationGap;
+
+        let nextActive = "About";
+
+        if (contactIsProminent || isNearPageBottom) {
+          nextActive = "Contact";
+        } else {
+          const crossedSections = sections
+            .filter(({ id }) => id !== "contact")
+            .map(({ id, label }) => {
+              const section = document.getElementById(id);
+              if (!section) return null;
+              return { label, top: section.getBoundingClientRect().top };
+            })
+            .filter(
+              (section): section is { label: string; top: number } =>
+                section !== null && section.top <= activationLine,
+            )
+            .sort((a, b) => b.top - a.top);
+
+          nextActive = crossedSections[0]?.label ?? "About";
+        }
+
+        setActiveNav((current) =>
+          current === nextActive ? current : nextActive,
+        );
+      });
+    };
+
+    updateActiveNav();
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    window.addEventListener("resize", updateActiveNav);
+    window.addEventListener("hashchange", updateActiveNav);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", updateActiveNav);
+      window.removeEventListener("resize", updateActiveNav);
+      window.removeEventListener("hashchange", updateActiveNav);
+    };
+  }, []);
 
   // Load per-browser project engagement data after hydration.
   useEffect(() => {
@@ -10411,8 +10485,9 @@ export default function Home() {
             width: 20px;
             height: 20px;
           }
-          /* Targeted request: remove only the star covering the headline and the tail-like squiggle. */
-          .hero-visual > .spark.spark-one,
+
+          /* Targeted fix only: hide the star overlapping the headline and the tail-like squiggle. */
+          .hero-visual > .spark-one,
           .hero-visual > .hero-doodle-squiggle {
             display: none !important;
           }
@@ -10456,7 +10531,7 @@ export default function Home() {
           aria-label="Main navigation"
         >
           {[
-            ["About", "#about"],
+            ["About", "#home"],
             ["Work", "#work"],
             ["Experience", "#experience"],
             ["Skills", "#skills"],
@@ -10467,9 +10542,25 @@ export default function Home() {
               href={href}
               className={activeNav === label ? "active" : ""}
               aria-current={activeNav === label ? "location" : undefined}
-              onClick={() => {
+              onClick={(event) => {
+                // Handle section navigation explicitly so it works reliably
+                // in the responsive dropdown as well as on desktop.
+                event.preventDefault();
+                const targetId = href.startsWith("#") ? href.slice(1) : "";
                 setActiveNav(label);
                 setMenuOpen(false);
+
+                if (!targetId) return;
+
+                window.history.replaceState(null, "", href);
+                window.requestAnimationFrame(() => {
+                  const target = document.getElementById(targetId);
+                  if (!target) return;
+                  target.scrollIntoView({
+                    behavior: shouldReduceMotion ? "auto" : "smooth",
+                    block: "start",
+                  });
+                });
               }}
             >
               {label}
@@ -10480,12 +10571,15 @@ export default function Home() {
             href="#contact"
             onClick={(event) => {
               event.preventDefault();
+              setActiveNav("Contact");
               setMenuOpen(false);
-              document.getElementById("contact")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
               window.history.replaceState(null, "", "#contact");
+              window.requestAnimationFrame(() => {
+                document.getElementById("contact")?.scrollIntoView({
+                  behavior: shouldReduceMotion ? "auto" : "smooth",
+                  block: "start",
+                });
+              });
             }}
           >
             Let&apos;s connect <ArrowUpRightIcon size="15px" />
