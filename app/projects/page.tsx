@@ -5,6 +5,102 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
+/** Platform-independent project feature icons rendered as SVG, never emoji glyphs. */
+function ProjectFeatureIcon({ kind }: { kind: string }) {
+  const common = {
+    width: 20,
+    height: 20,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true as const,
+    focusable: "false" as const,
+  };
+
+  if (kind === "bedenbender") {
+    return (
+      <svg {...common}>
+        <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" />
+        <path d="m19.4 13.5 1.1.9-1.1 1.9-1.4-.5a7.9 7.9 0 0 1-1.6.9l-.3 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-1.9-1.1.5-1.4a7.9 7.9 0 0 1-.9-1.6l-1.5-.3v-2.2l1.4-.4a7.7 7.7 0 0 1 0-1.8l-1.2-.8 1.1-1.9 1.4.5a7.9 7.9 0 0 1 1.6-.9l.3-1.5h2.2l.4 1.4a7.7 7.7 0 0 1 1.8 0l.8-1.2 1.9 1.1-.5 1.4a7.9 7.9 0 0 1 .9 1.6l1.5.3v2.2l-1.4.4" />
+      </svg>
+    );
+  }
+
+  if (kind === "agro") {
+    return (
+      <svg {...common}>
+        <path d="M20.5 3.5C12 3.7 6 5.8 4.5 11.1c-.9 3.2 1.2 5.8 4.5 5.3 5.4-.8 8.7-7.3 11.5-12.9Z" />
+        <path d="M3.5 21c2.2-4 5.4-7.1 10.1-10.3" />
+      </svg>
+    );
+  }
+
+  if (kind === "startoops") {
+    return (
+      <svg {...common}>
+        <path d="M12 2.5v19M2.5 12h19M5.3 5.3l13.4 13.4M18.7 5.3 5.3 18.7" />
+      </svg>
+    );
+  }
+
+  if (kind === "afeksi") {
+    return (
+      <svg {...common}>
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...common}>
+      <circle cx="12" cy="12" r="7.5" />
+      <circle cx="12" cy="12" r="2.2" />
+      <path d="M12 1.8v3M12 19.2v3M1.8 12h3M19.2 12h3" />
+    </svg>
+  );
+}
+
+function ArrowLeftIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+  );
+}
+
+function ExternalArrowIcon() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  );
+}
+
 const projects = [
   {
     number: "01",
@@ -429,6 +525,9 @@ export default function ProjectsPage() {
           outline-offset: 4px;
         }
         .projects-back span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           font-size: 17px;
           transition: transform 0.2s ease;
         }
@@ -865,6 +964,9 @@ export default function ProjectsPage() {
           text-decoration: none;
         }
         .project-link span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           font-size: 18px;
           transition: transform 0.2s ease;
         }
@@ -1078,7 +1180,10 @@ export default function ProjectsPage() {
             HERU DWI KURNIAWAN<span aria-hidden="true">.</span>
           </Link>
           <Link href="/" className="projects-back">
-            <span aria-hidden="true">←</span> Back to portfolio
+            <span aria-hidden="true">
+              <ArrowLeftIcon />
+            </span>{" "}
+            Back to portfolio
           </Link>
         </nav>
 
@@ -1220,15 +1325,7 @@ export default function ProjectsPage() {
                         <div className="art-wide-line" />
                         <div className="art-feature">
                           <div className="art-feature-mark">
-                            {project.kind === "bedenbender"
-                              ? "⚙"
-                              : project.kind === "agro"
-                                ? "🌿"
-                                : project.kind === "startoops"
-                                  ? "✳"
-                                  : project.kind === "afeksi"
-                                    ? "+"
-                                    : "⌖"}
+                            <ProjectFeatureIcon kind={project.kind} />
                           </div>
                           <div className="art-feature-lines">
                             <i />
@@ -1312,7 +1409,10 @@ export default function ProjectsPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {project.linkLabel} <span aria-hidden="true">↗</span>
+                  {project.linkLabel}{" "}
+                  <span aria-hidden="true">
+                    <ExternalArrowIcon />
+                  </span>
                 </a>
               </div>
             </motion.article>
