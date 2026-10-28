@@ -3258,11 +3258,11 @@ export default function Home() {
             font-weight: 800;
             text-decoration: none;
           }
-          .selected-project-link span {
-            font-size: 17px;
+          .selected-project-link svg {
+            flex: 0 0 auto;
             transition: transform 0.2s ease;
           }
-          .selected-project-link:hover span {
+          .selected-project-link:hover svg {
             transform: translate(3px, -3px);
           }
           .selected-projects-footer {
@@ -5504,14 +5504,16 @@ export default function Home() {
             --process-accent: #2a9b7d;
           }
           .process-item::after {
-            content: "↗";
+            content: "";
             position: absolute;
-            top: 43px;
-            right: 10px;
-            color: var(--process-accent, #3478e5);
-            font-size: 17px;
-            font-weight: 700;
+            top: 47px;
+            right: 13px;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid var(--process-accent, #3478e5);
+            border-right: 2px solid var(--process-accent, #3478e5);
             opacity: 0.7;
+            transform: rotate(0deg);
             transition: transform 0.3s ease;
           }
           .process-item:hover {
@@ -7062,13 +7064,18 @@ export default function Home() {
           }
 
           .hero-visual .hero-decor-orbit::after {
-            content: "✳";
+            content: "";
             position: absolute;
             left: -22%;
             bottom: -35%;
+            width: clamp(24px, 3vw, 40px);
+            aspect-ratio: 1;
+            background: currentColor;
             color: #0099b5;
-            font-size: clamp(24px, 3vw, 40px);
-            font-weight: 800;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2.5V45.5M2.5 24H45.5M8.8 8.8L39.2 39.2M39.2 8.8L8.8 39.2' stroke='black' stroke-width='4.5' stroke-linecap='square'/%3E%3C/svg%3E")
+              center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2.5V45.5M2.5 24H45.5M8.8 8.8L39.2 39.2M39.2 8.8L8.8 39.2' stroke='black' stroke-width='4.5' stroke-linecap='square'/%3E%3C/svg%3E")
+              center / contain no-repeat;
             transform: rotate(-12deg);
           }
 
@@ -9868,7 +9875,7 @@ export default function Home() {
               window.history.replaceState(null, "", "#contact");
             }}
           >
-            Let&apos;s connect ↗
+            Let&apos;s connect <ArrowUpRightIcon size="15px" />
           </a>
         </nav>
 
@@ -9885,7 +9892,7 @@ export default function Home() {
         </button>
 
         <a className="button primary" href="#contact">
-          Let&apos;s connect ↗
+          Let&apos;s connect <ArrowUpRightIcon size="15px" />
         </a>
       </motion.header>
 
@@ -10057,7 +10064,9 @@ export default function Home() {
             <span>F</span>
             <span>G</span>
             <span>H</span>
-            <span>↗</span>
+            <span>
+              <ArrowUpRightIcon size="16px" />
+            </span>
             <span>U</span>
             <span>I</span>
             <span>✳</span>
@@ -10152,8 +10161,15 @@ export default function Home() {
                   </span>
                   {!(index === 0 || index === 1 || index === 2) ? (
                     <>
-                      <span className="selected-project-symbol">
-                        {project.symbol || "✦"}
+                      <span
+                        className="selected-project-symbol"
+                        aria-hidden="true"
+                      >
+                        {project.symbol === "↗" ? (
+                          <ArrowUpRightIcon size="1em" />
+                        ) : (
+                          <StarburstIcon size="1em" />
+                        )}
                       </span>
                       <span className="selected-project-art-label">
                         {project.artLabel || "DESIGN · EXPERIENCE · IMPACT"}
@@ -10222,7 +10238,7 @@ export default function Home() {
                     className="selected-project-link"
                   >
                     {project.label || "View project"}{" "}
-                    <span aria-hidden="true">↗</span>
+                    <ArrowUpRightIcon size="17px" />
                   </a>
                 </div>
               </motion.article>
@@ -10594,7 +10610,13 @@ export default function Home() {
                     <span className="skill-number">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="skill-icon">{skillDetails.icon}</span>
+                    <span className="skill-icon">
+                      {skillDetails.icon === "↗" ? (
+                        <ArrowUpRightIcon size="24px" />
+                      ) : (
+                        skillDetails.icon
+                      )}
+                    </span>
                   </div>
                   <h3>{skill}</h3>
                   <p>{skillDetails.description}</p>
@@ -10604,10 +10626,14 @@ export default function Home() {
                     ))}
                   </div>
                   <span className="skill-arrow" aria-hidden="true">
-                    ↗
+                    <ArrowUpRightIcon size="18px" />
                   </span>
                   <span className="skill-decor" aria-hidden="true">
-                    {skillDetails.icon}
+                    {skillDetails.icon === "↗" ? (
+                      <ArrowUpRightIcon size="1em" />
+                    ) : (
+                      skillDetails.icon
+                    )}
                   </span>
                 </motion.article>
               );
@@ -11171,7 +11197,7 @@ export default function Home() {
                     <small className="achievement-detail">{detail}</small>
                   </div>
                   <span className="achievement-arrow" aria-hidden="true">
-                    ↗
+                    <ArrowUpRightIcon size="16px" />
                   </span>
                 </motion.article>
               ),
@@ -11206,7 +11232,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  View my CV ↗
+                  View my CV <ArrowUpRightIcon size="16px" />
                 </a>
 
                 <a
@@ -11215,11 +11241,11 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Browse full portfolio ↗
+                  Browse full portfolio <ArrowUpRightIcon size="16px" />
                 </a>
 
                 <a className="button" href="mailto:herukurniawan1610@gmail.com">
-                  Email me ↗
+                  Email me <ArrowUpRightIcon size="16px" />
                 </a>
 
                 <a
@@ -11228,7 +11254,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  LinkedIn ↗
+                  LinkedIn <ArrowUpRightIcon size="16px" />
                 </a>
 
                 <a
@@ -11237,7 +11263,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  GitHub ↗
+                  GitHub <ArrowUpRightIcon size="16px" />
                 </a>
               </div>
             </div>
