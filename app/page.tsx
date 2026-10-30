@@ -873,7 +873,22 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [activeNav, setActiveNav] = useState("About");
   const [typedRole, setTypedRole] = useState("");
+  const [loadingProgress, setLoadingProgress] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
+  const [preloaderLeaving, setPreloaderLeaving] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const loadingMessage =
+    loadingProgress >= 100
+      ? "READY TO EXPLORE"
+      : loadingProgress >= 80
+        ? "Almost ready"
+        : loadingProgress >= 60
+          ? "Refining the experience"
+          : loadingProgress >= 40
+            ? "Crafting the interface"
+            : loadingProgress >= 20
+              ? "Laying the foundations"
+              : "Preparing the experience";
   const [projectViews, setProjectViews] = useState<Record<string, number>>({});
   const [projectLikes, setProjectLikes] = useState<Record<string, number>>({});
   const [likedProjects, setLikedProjects] = useState<Record<string, boolean>>(
@@ -885,6 +900,91 @@ export default function Home() {
     projects: 0,
     gpa: 0,
   });
+
+  // Always start a fresh page load at the Hero instead of restoring an old scroll position.
+  // This is especially useful when the preloader is visible during refresh.
+  useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration;
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    let firstFrame = 0;
+    let secondFrame = 0;
+
+    window.history.scrollRestoration = "manual";
+
+    const scrollToHero = () => {
+      // Override the site's smooth-scroll rule only while resetting the initial position.
+      root.style.scrollBehavior = "auto";
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    };
+
+    scrollToHero();
+    firstFrame = window.requestAnimationFrame(() => {
+      scrollToHero();
+      secondFrame = window.requestAnimationFrame(() => {
+        scrollToHero();
+        root.style.scrollBehavior = previousScrollBehavior;
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+      root.style.scrollBehavior = previousScrollBehavior;
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, []);
+
+  // Show only the selected milestones, then reveal the site with a split-curtain transition.
+  useEffect(() => {
+    let frameId = 0;
+    let startTime = 0;
+    let lastProgress = 10;
+    let leaveTimer = 0;
+    let finishTimer = 0;
+    const milestones = [10, 20, 40, 60, 80, 100];
+    const duration = shouldReduceMotion ? 900 : 6600;
+    const exitDuration = shouldReduceMotion ? 30 : 1320;
+
+    const animateProgress = (timestamp: number) => {
+      if (startTime === 0) startTime = timestamp;
+      const elapsed = Math.min((timestamp - startTime) / duration, 1);
+      const stepIndex = Math.min(
+        milestones.length - 1,
+        Math.floor(elapsed * milestones.length),
+      );
+      const nextProgress = milestones[stepIndex];
+
+      if (nextProgress !== lastProgress) {
+        lastProgress = nextProgress;
+        setLoadingProgress(nextProgress);
+      }
+
+      if (elapsed < 1) {
+        frameId = window.requestAnimationFrame(animateProgress);
+        return;
+      }
+
+      // Hold 100% briefly, then slide the two halves away from the center.
+      leaveTimer = window.setTimeout(
+        () => {
+          setPreloaderLeaving(true);
+          finishTimer = window.setTimeout(
+            () => setIsLoading(false),
+            exitDuration,
+          );
+        },
+        shouldReduceMotion ? 0 : 500,
+      );
+    };
+
+    frameId = window.requestAnimationFrame(animateProgress);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(leaveTimer);
+      window.clearTimeout(finishTimer);
+    };
+  }, [shouldReduceMotion]);
 
   // Restore the visitor's preferred color theme after hydration.
   useEffect(() => {
@@ -1158,9 +1258,249 @@ export default function Home() {
 
   return (
     <main className={`portfolio ${darkMode ? "dark-theme" : ""}`} id="home">
+      {isLoading && (
+        <div
+          className={`site-preloader ${preloaderLeaving ? "is-leaving" : ""}`}
+          role="status"
+          aria-live="polite"
+          aria-label={`Loading portfolio, ${loadingProgress}%`}
+        >
+          <div className="preloader-center">
+            <div className="preloader-composition">
+              <span key={loadingProgress} className="preloader-number">
+                {loadingProgress}
+                <span className="preloader-percent">%</span>
+              </span>
+              <p
+                key={loadingMessage}
+                className="preloader-message"
+                aria-hidden="true"
+              >
+                {loadingMessage}
+              </p>
+            </div>
+          </div>
+          <div className="preloader-track" aria-hidden="true">
+            <div
+              className="preloader-track-fill"
+              style={{ width: `${loadingProgress}%` }}
+            />
+          </div>
+        </div>
+      )}
       <style jsx global>
         {`
           @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+          .site-preloader {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            z-index: 20000;
+            display: block;
+            overflow: hidden;
+            background: transparent;
+            color: #1236d8;
+            isolation: isolate;
+          }
+
+          /* Two matching panels meet at the center, then split upward and downward. */
+          .site-preloader::before,
+          .site-preloader::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50.5%;
+            background-color: #f7f3e9;
+            background-image: radial-gradient(
+              #1515150b 0.7px,
+              transparent 0.7px
+            );
+            background-size: 5px 5px;
+            z-index: 0;
+            pointer-events: none;
+            will-change: transform;
+            transition: transform 1.32s cubic-bezier(0.76, 0, 0.24, 1);
+          }
+
+          .site-preloader::before {
+            top: 0;
+          }
+
+          .site-preloader::after {
+            bottom: 0;
+          }
+
+          .site-preloader.is-leaving {
+            pointer-events: none;
+          }
+
+          .site-preloader.is-leaving::before {
+            transform: translate3d(0, -102%, 0);
+          }
+
+          .site-preloader.is-leaving::after {
+            transform: translate3d(0, 102%, 0);
+          }
+
+          .preloader-center {
+            /* Anchor the composition directly to the viewport, not document content. */
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          .preloader-composition {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(14px, 2.2vh, 24px);
+            width: min(100%, 760px);
+            height: auto;
+            min-height: 0;
+            margin: 0;
+            padding: 0 4vw;
+            box-sizing: border-box;
+            text-align: center;
+          }
+
+          .preloader-message {
+            min-height: 1.4em;
+            margin: 0;
+            color: #5e5a55;
+            font:
+              600 clamp(11px, 1vw, 14px)/1.4 "DM Sans",
+              sans-serif;
+            letter-spacing: 0.16em;
+            text-align: center;
+            text-transform: uppercase;
+            animation: preloader-message-in 0.42s cubic-bezier(0.22, 1, 0.36, 1)
+              both;
+          }
+
+          @keyframes preloader-message-in {
+            from {
+              opacity: 0;
+              transform: translateY(6px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .site-preloader.is-leaving .preloader-center {
+            opacity: 0;
+            transform: scale(0.985);
+            transition:
+              opacity 0.32s ease,
+              transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+
+          .preloader-number {
+            display: inline-flex;
+            align-items: flex-start;
+            justify-content: center;
+            color: #1236d8;
+            font:
+              700 clamp(150px, 28vw, 360px)/0.82 "Space Grotesk",
+              sans-serif;
+            letter-spacing: -0.09em;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            will-change: contents;
+          }
+
+          .preloader-percent {
+            margin: 0.1em 0 0 0.08em;
+            font-size: 0.32em;
+            line-height: 1;
+            letter-spacing: -0.06em;
+          }
+
+          @keyframes preloader-number-in {
+            from {
+              opacity: 0.35;
+              transform: translateY(8px) scale(0.985);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+
+          .preloader-track {
+            position: absolute;
+            z-index: 1;
+            inset: auto 0 0;
+            width: 100%;
+            height: 3px;
+            overflow: hidden;
+            background: rgba(18, 54, 216, 0.12);
+            transition: opacity 0.22s ease;
+          }
+
+          .site-preloader.is-leaving .preloader-track {
+            opacity: 0;
+          }
+
+          .preloader-track-fill {
+            height: 100%;
+            background: #1236d8;
+            transition: width 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+
+          @media (max-width: 760px) {
+            .preloader-center {
+              padding: 0;
+            }
+
+            .preloader-composition {
+              gap: 16px;
+              padding: 0 16px;
+            }
+
+            .preloader-number {
+              font-size: clamp(132px, 35vw, 230px);
+            }
+
+            .preloader-message {
+              max-width: 90vw;
+              font-size: 10px;
+              letter-spacing: 0.12em;
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .site-preloader::before,
+            .site-preloader::after,
+            .preloader-center,
+            .preloader-number,
+            .preloader-message,
+            .preloader-track,
+            .preloader-track-fill {
+              animation: none !important;
+              transition-duration: 0.01ms !important;
+            }
+
+            .preloader-message {
+              animation: none !important;
+            }
+          }
 
           :root {
             --cyan: #1236d8;
