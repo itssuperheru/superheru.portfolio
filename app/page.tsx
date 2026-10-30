@@ -942,18 +942,14 @@ export default function Home() {
     let lastProgress = 10;
     let leaveTimer = 0;
     let finishTimer = 0;
-    const milestones = [10, 20, 40, 60, 80, 100];
-    const duration = shouldReduceMotion ? 900 : 6600;
-    const exitDuration = shouldReduceMotion ? 30 : 1320;
+    // Count smoothly from 10% to 100% without keeping the visitor waiting.
+    const duration = shouldReduceMotion ? 400 : 2400;
+    const exitDuration = shouldReduceMotion ? 30 : 850;
 
     const animateProgress = (timestamp: number) => {
       if (startTime === 0) startTime = timestamp;
       const elapsed = Math.min((timestamp - startTime) / duration, 1);
-      const stepIndex = Math.min(
-        milestones.length - 1,
-        Math.floor(elapsed * milestones.length),
-      );
-      const nextProgress = milestones[stepIndex];
+      const nextProgress = Math.min(100, 10 + Math.floor(elapsed * 90));
 
       if (nextProgress !== lastProgress) {
         lastProgress = nextProgress;
@@ -974,7 +970,7 @@ export default function Home() {
             exitDuration,
           );
         },
-        shouldReduceMotion ? 0 : 500,
+        shouldReduceMotion ? 0 : 200,
       );
     };
 
@@ -1340,6 +1336,78 @@ export default function Home() {
               }}
             >
               <div
+                aria-hidden="true"
+                style={{
+                  position: "relative",
+                  display: "grid",
+                  placeItems: "center",
+                  width: 150,
+                  height: 150,
+                  marginBottom: 10,
+                  color: "#1236d8",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    width: 142,
+                    height: 72,
+                    border: "1px solid rgba(18, 54, 216, 0.28)",
+                    borderRadius: "50%",
+                    transform: "rotate(-25deg)",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "relative",
+                    display: "grid",
+                    placeItems: "center",
+                    width: 82,
+                    height: 82,
+                    borderRadius: 20,
+                    background: "linear-gradient(145deg, #ffffff, #e8edff)",
+                    border: "1px solid rgba(18, 54, 216, 0.18)",
+                    boxShadow:
+                      "0 18px 34px rgba(18, 54, 216, 0.16), inset 0 2px 3px rgba(255,255,255,0.95)",
+                    transform: "rotate(-8deg)",
+                  }}
+                >
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 19 19 5M7 5h12v12"
+                      stroke="#1236d8"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 10,
+                    fontSize: 30,
+                    lineHeight: 1,
+                    color: "#1236d8",
+                  }}
+                >
+                  ✳
+                </span>
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: 8,
+                    left: 8,
+                    fontSize: 20,
+                    lineHeight: 1,
+                    color: "#1236d8",
+                  }}
+                >
+                  ✳
+                </span>
+              </div>
+              <div
                 className="preloader-number-window"
                 aria-live="off"
                 style={{
@@ -1354,46 +1422,36 @@ export default function Home() {
                   lineHeight: 0.9,
                 }}
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={loadingProgress}
-                    className="preloader-number"
-                    initial={{ y: "100%" }}
-                    animate={{ y: "0%" }}
-                    exit={{ y: "-100%" }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0 : 0.48,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                <span
+                  className="preloader-number"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                    color: "#1236d8",
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: "clamp(88px, 13vw, 156px)",
+                    fontWeight: 700,
+                    lineHeight: 0.9,
+                    letterSpacing: "-0.09em",
+                    fontVariantNumeric: "tabular-nums",
+                    whiteSpace: "nowrap",
+                    willChange: "transform",
+                  }}
+                >
+                  {loadingProgress}
+                  <span
+                    className="preloader-percent"
                     style={{
-                      display: "inline-flex",
-                      alignItems: "flex-start",
-                      justifyContent: "center",
-                      color: "#1236d8",
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: "clamp(140px, 25vw, 340px)",
-                      fontWeight: 700,
-                      lineHeight: 0.9,
-                      letterSpacing: "-0.09em",
-                      fontVariantNumeric: "tabular-nums",
-                      whiteSpace: "nowrap",
-                      willChange: "transform",
+                      margin: "0.1em 0 0 0.08em",
+                      fontSize: "0.32em",
+                      lineHeight: 1,
+                      letterSpacing: "-0.06em",
                     }}
                   >
-                    {loadingProgress}
-                    <span
-                      className="preloader-percent"
-                      style={{
-                        margin: "0.1em 0 0 0.08em",
-                        fontSize: "0.32em",
-                        lineHeight: 1,
-                        letterSpacing: "-0.06em",
-                      }}
-                    >
-                      %
-                    </span>
-                  </motion.span>
-                </AnimatePresence>
+                    %
+                  </span>
+                </span>
               </div>
               <p
                 key={loadingMessage}
@@ -1402,7 +1460,7 @@ export default function Home() {
                 style={{
                   minHeight: "1.4em",
                   margin: 0,
-                  color: "#5e5a55",
+                  color: "#1236d8",
                   fontFamily: "'DM Sans', sans-serif",
                   fontSize: "clamp(13px, 1.15vw, 16px)",
                   fontWeight: 600,
@@ -1415,25 +1473,32 @@ export default function Home() {
               >
                 {loadingMessage}
               </p>
+              <div
+                className="preloader-track"
+                aria-hidden="true"
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  width: "min(100%, 400px)",
+                  height: 4,
+                  marginTop: 12,
+                  overflow: "hidden",
+                  borderRadius: 999,
+                  background: "rgba(18, 54, 216, 0.14)",
+                }}
+              >
+                <div
+                  className="preloader-track-fill"
+                  style={{
+                    width: `${loadingProgress}%`,
+                    height: "100%",
+                    borderRadius: 999,
+                    background: "#1236d8",
+                    transition: "width 0.08s linear",
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="preloader-track"
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              zIndex: 1,
-              inset: "auto 0 0",
-              width: "100%",
-              height: 3,
-              overflow: "hidden",
-              background: "rgba(18, 54, 216, 0.12)",
-            }}
-          >
-            <div
-              className="preloader-track-fill"
-              style={{ width: `${loadingProgress}%` }}
-            />
           </div>
         </div>
       )}
@@ -1637,12 +1702,12 @@ export default function Home() {
             }
 
             .preloader-number {
-              font-size: clamp(140px, 38vw, 190px);
+              font-size: clamp(76px, 20vw, 112px);
             }
 
             .preloader-message {
               max-width: 92vw;
-              font-size: clamp(14px, 3.8vw, 16px);
+              font-size: clamp(11px, 3vw, 14px);
               letter-spacing: 0.1em;
             }
           }
