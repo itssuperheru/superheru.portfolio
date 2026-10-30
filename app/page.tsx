@@ -1307,9 +1307,53 @@ export default function Home() {
           aria-live="polite"
           aria-label={`Loading portfolio, ${loadingProgress}%`}
         >
-          <div className="preloader-center">
-            <div className="preloader-composition">
-              <div className="preloader-number-window" aria-live="off">
+          <div
+            className="preloader-center"
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 1,
+              display: "grid",
+              placeItems: "center",
+              width: "100%",
+              height: "100%",
+              minHeight: 0,
+              margin: 0,
+              padding: 0,
+              boxSizing: "border-box",
+            }}
+          >
+            <div
+              className="preloader-composition"
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "clamp(14px, 2.2vh, 24px)",
+                width: "min(100%, 1200px)",
+                margin: 0,
+                padding: "0 4vw",
+                boxSizing: "border-box",
+                textAlign: "center",
+              }}
+            >
+              <div
+                className="preloader-number-window"
+                aria-live="off"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  maxWidth: "100%",
+                  padding: "0 24px",
+                  boxSizing: "border-box",
+                  overflow: "hidden",
+                  lineHeight: 0.9,
+                }}
+              >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={loadingProgress}
@@ -1321,9 +1365,33 @@ export default function Home() {
                       duration: shouldReduceMotion ? 0 : 0.48,
                       ease: [0.22, 1, 0.36, 1],
                     }}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      color: "#1236d8",
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontSize: "clamp(140px, 25vw, 340px)",
+                      fontWeight: 700,
+                      lineHeight: 0.9,
+                      letterSpacing: "-0.09em",
+                      fontVariantNumeric: "tabular-nums",
+                      whiteSpace: "nowrap",
+                      willChange: "transform",
+                    }}
                   >
                     {loadingProgress}
-                    <span className="preloader-percent">%</span>
+                    <span
+                      className="preloader-percent"
+                      style={{
+                        margin: "0.1em 0 0 0.08em",
+                        fontSize: "0.32em",
+                        lineHeight: 1,
+                        letterSpacing: "-0.06em",
+                      }}
+                    >
+                      %
+                    </span>
                   </motion.span>
                 </AnimatePresence>
               </div>
@@ -1331,12 +1399,37 @@ export default function Home() {
                 key={loadingMessage}
                 className="preloader-message"
                 aria-hidden="true"
+                style={{
+                  minHeight: "1.4em",
+                  margin: 0,
+                  color: "#5e5a55",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "clamp(13px, 1.15vw, 16px)",
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                  letterSpacing: "0.16em",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  whiteSpace: "nowrap",
+                }}
               >
                 {loadingMessage}
               </p>
             </div>
           </div>
-          <div className="preloader-track" aria-hidden="true">
+          <div
+            className="preloader-track"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              zIndex: 1,
+              inset: "auto 0 0",
+              width: "100%",
+              height: 3,
+              overflow: "hidden",
+              background: "rgba(18, 54, 216, 0.12)",
+            }}
+          >
             <div
               className="preloader-track-fill"
               style={{ width: `${loadingProgress}%` }}
@@ -2173,21 +2266,6 @@ export default function Home() {
             bottom: auto;
             color: #008ca8;
             font-size: 54px;
-          }
-          .hero-note {
-            position: absolute;
-            bottom: 10%;
-            left: 2%;
-            z-index: 5;
-            background: #fff;
-            padding: 18px 20px;
-            font: 700 17px cursive;
-            transform: rotate(-8deg);
-            box-shadow: 0 8px 20px #183e5b18;
-            border-radius: 20px;
-          }
-          .hero-note span {
-            margin-left: 8px;
           }
 
           .section {
@@ -3246,13 +3324,6 @@ export default function Home() {
             .tag-five {
               top: 76%;
             }
-            .hero-note {
-              bottom: 5%;
-              right: 2%;
-              left: auto;
-              padding: 8px;
-              font-size: 10px;
-            }
             .hero-micro-card {
               left: 3%;
               right: auto;
@@ -3571,50 +3642,6 @@ export default function Home() {
             animation: hero-spark-float 4.2s ease-in-out 0.3s infinite reverse;
           }
 
-          .hero-note {
-            left: 3%;
-            bottom: 10%;
-            top: auto;
-            z-index: 5;
-            width: 43%;
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 6px;
-            padding: 12px;
-            border: 0;
-            border-radius: 20px;
-            background: #fff;
-            box-shadow: 0 14px 28px #183e5b18;
-            transform: rotate(-9deg);
-            animation: hero-keyboard-float 4.8s ease-in-out infinite;
-          }
-          .hero-note span {
-            display: grid;
-            min-width: 0;
-            height: clamp(24px, 2.5vw, 34px);
-            place-items: center;
-            margin: 0;
-            border-radius: 7px;
-            background: #caf0f8;
-            color: #006b83;
-            font:
-              800 clamp(9px, 0.95vw, 13px)/1 "Space Grotesk",
-              sans-serif;
-            box-shadow: 0 3px 0 #90d9e8;
-          }
-          .hero-note span:nth-child(3n) {
-            background: #ffdf48;
-            color: #171717;
-            box-shadow: 0 3px 0 #e3bd21;
-          }
-          .hero-note span:nth-child(4n) {
-            background: #b9efa5;
-            color: #173b15;
-            box-shadow: 0 3px 0 #8dcc77;
-          }
-          .hero-note span.keyboard-space {
-            grid-column: span 3;
-          }
 
           @keyframes hero-grid-drift {
             from {
@@ -3666,11 +3693,6 @@ export default function Home() {
               rotate: 5deg;
             }
           }
-          @keyframes hero-keyboard-float {
-            0%,
-            100% {
-              transform: rotate(-9deg) translateY(0);
-            }
             50% {
               transform: rotate(-6deg) translateY(-7px);
             }
@@ -3727,12 +3749,6 @@ export default function Home() {
             .tag-five {
               top: 72%;
             }
-            .hero-note {
-              width: 43%;
-              bottom: 8%;
-              padding: 9px;
-              gap: 4px;
-            }
           }
           @media (max-width: 640px) {
             .hero-visual {
@@ -3787,19 +3803,6 @@ export default function Home() {
             .tag-five {
               top: 77%;
             }
-            .hero-note {
-              width: 44%;
-              left: 2%;
-              bottom: 6%;
-              padding: 6px;
-              gap: 3px;
-              border-radius: 12px;
-            }
-            .hero-note span {
-              height: 20px;
-              font-size: 8px;
-              border-radius: 5px;
-            }
             .spark-one {
               left: 3%;
               top: 36%;
@@ -3817,7 +3820,6 @@ export default function Home() {
             .hero-visual:after,
             .portrait-frame,
             .float-tag,
-            .hero-note,
             .spark-one,
             .spark-two {
               animation: none !important;
@@ -3871,9 +3873,6 @@ export default function Home() {
             word-break: normal !important;
             text-align: center;
           }
-          .hero-visual .hero-note {
-            z-index: 8 !important;
-          }
           @media (max-width: 900px) {
             .hero-visual .portrait-frame {
               left: 5% !important;
@@ -3923,21 +3922,6 @@ export default function Home() {
             overflow-wrap: break-word;
             word-break: normal;
           }
-          .hero-visual .hero-note {
-            left: 2% !important;
-            bottom: 3% !important;
-            top: auto !important;
-            width: min(265px, 30%) !important;
-            padding: 8px !important;
-            gap: 4px !important;
-            z-index: 2 !important;
-            transform: rotate(-7deg);
-          }
-          .hero-visual .hero-note span {
-            min-width: 0;
-            height: clamp(19px, 2vw, 28px);
-            font-size: clamp(8px, 0.9vw, 11px);
-          }
           @media (max-width: 900px) {
             .hero-visual .portrait-frame {
               left: 7% !important;
@@ -3946,10 +3930,6 @@ export default function Home() {
             .hero-visual .float-tag {
               width: 40% !important;
               max-width: 40% !important;
-            }
-            .hero-visual .hero-note {
-              width: min(205px, 30%) !important;
-              bottom: 3% !important;
             }
           }
           @media (max-width: 640px) {
@@ -3964,24 +3944,9 @@ export default function Home() {
               right: 2% !important;
               font-size: clamp(8px, 2vw, 11px);
             }
-            .hero-visual .hero-note {
-              width: 34% !important;
-              max-width: 150px;
-              left: 1.5% !important;
-              bottom: 2% !important;
-              padding: 5px !important;
-              gap: 3px !important;
-            }
-            .hero-visual .hero-note span {
-              height: 18px;
-              font-size: 8px;
-            }
           }
           @media (prefers-reduced-motion: reduce) {
             .hero-visual .portrait-frame,
-            .hero-visual .hero-note {
-              animation: none !important;
-            }
           }
 
           /* Final refinement: move the larger decorative keyboard under the motto on the right. */
@@ -4000,23 +3965,6 @@ export default function Home() {
           .hero-visual .tag-five {
             top: 58% !important;
           }
-          .hero-visual .hero-note {
-            left: auto !important;
-            right: 2.5% !important;
-            top: auto !important;
-            bottom: 3% !important;
-            width: min(310px, 32%) !important;
-            max-width: 32% !important;
-            padding: 10px !important;
-            gap: 6px !important;
-            z-index: 5 !important;
-            transform: rotate(-4deg);
-          }
-          .hero-visual .hero-note span {
-            height: clamp(25px, 2.8vw, 36px) !important;
-            font-size: clamp(10px, 1.1vw, 13px) !important;
-            border-radius: 7px;
-          }
           @media (max-width: 900px) {
             .hero-visual .tag-one {
               top: 9% !important;
@@ -4032,15 +3980,6 @@ export default function Home() {
             }
             .hero-visual .tag-five {
               top: 57% !important;
-            }
-            .hero-visual .hero-note {
-              left: auto !important;
-              right: 2.5% !important;
-              bottom: 2.5% !important;
-              width: min(230px, 34%) !important;
-              max-width: 34% !important;
-              padding: 8px !important;
-              gap: 4px !important;
             }
           }
           @media (max-width: 640px) {
@@ -4058,20 +3997,6 @@ export default function Home() {
             }
             .hero-visual .tag-five {
               top: 57% !important;
-            }
-            .hero-visual .hero-note {
-              left: auto !important;
-              right: 2.5% !important;
-              bottom: 3% !important;
-              width: 44% !important;
-              max-width: 180px !important;
-              padding: 6px !important;
-              gap: 3px !important;
-              border-radius: 12px !important;
-            }
-            .hero-visual .hero-note span {
-              height: 20px !important;
-              font-size: 9px !important;
             }
           }
 
@@ -8182,23 +8107,8 @@ export default function Home() {
             transform: rotate(-12deg);
           }
 
-          .hero-visual .hero-note {
-            z-index: 7;
-            right: 4%;
-            left: auto;
-            bottom: 4%;
-            width: min(310px, 38%);
-            max-width: 38%;
-            transform: rotate(-6deg);
-          }
 
           @media (max-width: 640px) {
-            .hero-visual .hero-note {
-              right: 3%;
-              bottom: 3%;
-              width: 48%;
-              max-width: 48%;
-            }
             .hero-visual .hero-decor-orbit {
               width: 110px;
               right: 5%;
@@ -8601,11 +8511,6 @@ export default function Home() {
               padding: 10px 7px;
               font-size: 11px;
             }
-            .hero-note {
-              max-width: 42%;
-              padding: 11px 12px;
-              font-size: 13px;
-            }
             .awards {
               grid-template-columns: minmax(0, 1fr);
             }
@@ -8927,9 +8832,6 @@ export default function Home() {
           }
           .dark-theme .hero-visual .float-tag,
           .dark-theme .hero-visual .motion-floating-tag,
-          .dark-theme .hero-visual .hero-note {
-            color: #17324d;
-          }
           .dark-theme .portrait-placeholder {
             background: linear-gradient(160deg, #1e293b, #164e63);
           }
@@ -9182,17 +9084,6 @@ export default function Home() {
           }
           .portfolio.dark-theme .hero-visual .hero-micro-card .micro-card-star {
             color: #22c1d6 !important;
-          }
-          .portfolio.dark-theme .hero-visual .hero-note {
-            background: rgba(12, 27, 46, 0.88) !important;
-            border: 1px solid rgba(191, 219, 254, 0.8) !important;
-            color: #f1f7ff !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
-            backdrop-filter: blur(5px);
-          }
-          .portfolio.dark-theme .hero-visual .hero-note span {
-            color: #93c5fd !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
           }
           .portfolio.dark-theme .hero-visual .spark,
           .portfolio.dark-theme .hero-visual .spark-one,
@@ -10143,11 +10034,6 @@ export default function Home() {
               top: 7%;
             }
 
-            .portfolio .hero-note {
-              max-width: 48%;
-              padding: 12px;
-              font-size: 13px;
-            }
 
             .portfolio .section {
               padding-top: 58px;
@@ -11251,29 +11137,6 @@ export default function Home() {
               strokeLinecap="round"
             />
           </svg>
-
-          <div className="hero-note" aria-label="Decorative keyboard">
-            <span>
-              <CommandKeyIcon size="16px" />
-            </span>
-            <span>F</span>
-            <span>G</span>
-            <span>H</span>
-            <span>
-              <ArrowUpRightIcon size="16px" />
-            </span>
-            <span>U</span>
-            <span>I</span>
-            <span>
-              <StarburstIcon size="1em" />
-            </span>
-            <span>X</span>
-            <span>O</span>
-            <span className="keyboard-space">SPACE</span>
-            <span>
-              <EnterKeyIcon size="16px" />
-            </span>
-          </div>
 
           <motion.div
             className="portrait-frame"
