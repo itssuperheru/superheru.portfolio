@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /** Simple diagonal arrow matching the hero button reference. */
 function ArrowBadge() {
@@ -872,7 +872,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [activeNav, setActiveNav] = useState("About");
-  const [typedRole, setTypedRole] = useState("");
+  const [typedRole, setTypedRole] = useState("UI/UX Designer");
   const [loadingProgress, setLoadingProgress] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [preloaderLeaving, setPreloaderLeaving] = useState(false);
@@ -1201,7 +1201,8 @@ export default function Home() {
     return () => window.cancelAnimationFrame(frameId);
   }, [statsRun, shouldReduceMotion]);
 
-  // Type and rotate through the requested professional roles without changing the hero layout.
+  // Keep UI/UX Designer visible during loading, then cycle roles with a
+  // consistent type rhythm and no empty frame between professions.
   useEffect(() => {
     const roles = [
       "UI/UX Designer",
@@ -1210,42 +1211,73 @@ export default function Home() {
       "Quality Assurance",
     ];
 
+    if (isLoading) {
+      setTypedRole(roles[0]);
+      return;
+    }
+
     if (shouldReduceMotion) {
       setTypedRole(roles[0]);
       return;
     }
 
+    const TYPE_DELAY = 120;
+    const DELETE_DELAY = 70;
+    const ROLE_HOLD = 1000;
     let roleIndex = 0;
-    let charIndex = 0;
+    let charIndex = roles[0].length;
     let deleting = false;
-    let pauseUntil = 0;
+    let cancelled = false;
+    let timeoutId: number | undefined;
+    setTypedRole(roles[0]);
 
-    setTypedRole("");
+    const schedule = (delay: number) => {
+      timeoutId = window.setTimeout(tick, delay);
+    };
 
-    const timer = window.setInterval(() => {
+    const tick = () => {
+      if (cancelled) return;
       const currentRole = roles[roleIndex];
 
       if (!deleting && charIndex === currentRole.length) {
-        if (pauseUntil === 0) {
-          pauseUntil = Date.now() + 1100;
+        schedule(ROLE_HOLD);
+        deleting = true;
+        return;
+      }
+
+      if (deleting) {
+        // Keep one character on screen, then replace it directly with the
+        // first character of the next role instead of flashing an empty line.
+        if (charIndex > 1) {
+          charIndex -= 1;
+          setTypedRole(currentRole.slice(0, charIndex));
+          schedule(DELETE_DELAY);
           return;
         }
-        if (Date.now() < pauseUntil) return;
-        deleting = true;
-        pauseUntil = 0;
-      }
 
-      if (deleting && charIndex === 0) {
-        deleting = false;
         roleIndex = (roleIndex + 1) % roles.length;
+        charIndex = 1;
+        deleting = false;
+        setTypedRole(roles[roleIndex].slice(0, 1));
+        schedule(TYPE_DELAY);
+        return;
       }
 
-      charIndex += deleting ? -1 : 1;
-      setTypedRole(roles[roleIndex].slice(0, charIndex));
-    }, 85);
+      const nextRole = roles[roleIndex];
+      if (charIndex < nextRole.length) {
+        charIndex += 1;
+        setTypedRole(nextRole.slice(0, charIndex));
+        schedule(TYPE_DELAY);
+      }
+    };
 
-    return () => window.clearInterval(timer);
-  }, [shouldReduceMotion]);
+    schedule(0);
+
+    return () => {
+      cancelled = true;
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+    };
+  }, [isLoading, shouldReduceMotion]);
 
   const reveal = shouldReduceMotion
     ? { initial: false, whileInView: undefined, transition: { duration: 0 } }
@@ -1267,10 +1299,24 @@ export default function Home() {
         >
           <div className="preloader-center">
             <div className="preloader-composition">
-              <span key={loadingProgress} className="preloader-number">
-                {loadingProgress}
-                <span className="preloader-percent">%</span>
-              </span>
+              <div className="preloader-number-window" aria-live="off">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={loadingProgress}
+                    className="preloader-number"
+                    initial={{ y: "100%" }}
+                    animate={{ y: "0%" }}
+                    exit={{ y: "-100%" }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 0.48,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
+                    {loadingProgress}
+                    <span className="preloader-percent">%</span>
+                  </motion.span>
+                </AnimatePresence>
+              </div>
               <p
                 key={loadingMessage}
                 className="preloader-message"
@@ -1369,7 +1415,7 @@ export default function Home() {
             align-items: center;
             justify-content: center;
             gap: clamp(14px, 2.2vh, 24px);
-            width: min(100%, 760px);
+            width: min(100%, 1200px);
             height: auto;
             min-height: 0;
             margin: 0;
@@ -1388,6 +1434,7 @@ export default function Home() {
             letter-spacing: 0.16em;
             text-align: center;
             text-transform: uppercase;
+            white-space: nowrap;
             animation: preloader-message-in 0.42s cubic-bezier(0.22, 1, 0.36, 1)
               both;
           }
@@ -1411,18 +1458,30 @@ export default function Home() {
               transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
           }
 
+          .preloader-number-window {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            max-width: 100vw;
+            padding: 0 24px;
+            box-sizing: border-box;
+            overflow: hidden;
+            line-height: 0.9;
+          }
+
           .preloader-number {
             display: inline-flex;
             align-items: flex-start;
             justify-content: center;
             color: #1236d8;
             font:
-              700 clamp(150px, 28vw, 360px)/0.82 "Space Grotesk",
+              700 clamp(120px, 22vw, 300px)/0.9 "Space Grotesk",
               sans-serif;
             letter-spacing: -0.09em;
             font-variant-numeric: tabular-nums;
             white-space: nowrap;
-            will-change: contents;
+            will-change: transform;
           }
 
           .preloader-percent {
@@ -1475,7 +1534,7 @@ export default function Home() {
             }
 
             .preloader-number {
-              font-size: clamp(132px, 35vw, 230px);
+              font-size: clamp(88px, 22vw, 160px);
             }
 
             .preloader-message {
@@ -1752,6 +1811,22 @@ export default function Home() {
             text-transform: uppercase;
           }
 
+          /* Reserve a stable role area so changing word lengths do not jolt the layout. */
+          .hero-role-track {
+            display: inline-flex;
+            align-items: center;
+            flex: 0 1 24ch;
+            width: 24ch;
+            min-width: 24ch;
+            max-width: 100%;
+            white-space: nowrap;
+          }
+
+          .hero-role-text {
+            display: inline-block;
+            white-space: nowrap;
+          }
+
           .hero-role-dash {
             display: inline-block;
             flex: 0 0 36px;
@@ -1760,16 +1835,21 @@ export default function Home() {
           }
 
           .hero-role-cursor {
+            flex: 0 0 3px;
             width: 3px;
             height: 1.15em;
-            margin-left: -7px;
+            margin-left: 3px;
             background: var(--cyan);
-            animation: hero-role-blink 0.8s steps(2, start) infinite;
+            animation: hero-role-blink 1s ease-in-out infinite;
           }
 
           @keyframes hero-role-blink {
-            to {
-              visibility: hidden;
+            0%,
+            100% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.25;
             }
           }
 
@@ -10831,6 +10911,14 @@ export default function Home() {
           .hero-visual > .hero-doodle-squiggle {
             display: none !important;
           }
+          @media (max-width: 640px) {
+            .hero-role-track {
+              flex-basis: 24ch;
+              width: 24ch;
+              min-width: min(24ch, 100%);
+              max-width: 100%;
+            }
+          }
         `}
       </style>
 
@@ -10973,10 +11061,14 @@ export default function Home() {
           </h1>
 
           <div className="hero-role" aria-live="polite" aria-atomic="true">
-            <span>{typedRole || "UI/UX Designer"}</span>
-            {!shouldReduceMotion && (
-              <span className="hero-role-cursor" aria-hidden="true" />
-            )}
+            <span className="hero-role-track">
+              <span className="hero-role-text">
+                {typedRole || "UI/UX Designer"}
+              </span>
+              {!shouldReduceMotion && (
+                <span className="hero-role-cursor" aria-hidden="true" />
+              )}
+            </span>
           </div>
 
           <p className="lead">
