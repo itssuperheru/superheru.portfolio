@@ -1293,6 +1293,16 @@ export default function Home() {
       {isLoading && (
         <div
           className={`site-preloader ${preloaderLeaving ? "is-leaving" : ""}`}
+          // Inline critical overlay styles prevent the Hero from flashing before
+          // the global preloader stylesheet is applied during a refresh.
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100%",
+            height: "100dvh",
+            zIndex: 20000,
+            backgroundColor: preloaderLeaving ? "transparent" : "#f7f3e9",
+          }}
           role="status"
           aria-live="polite"
           aria-label={`Loading portfolio, ${loadingProgress}%`}
@@ -1393,8 +1403,8 @@ export default function Home() {
           }
 
           .preloader-center {
-            /* Anchor the composition directly to the viewport, not document content. */
-            position: fixed;
+            /* Center the loading composition inside the full-screen preloader layer. */
+            position: absolute;
             inset: 0;
             z-index: 1;
             display: grid;
@@ -1429,7 +1439,7 @@ export default function Home() {
             margin: 0;
             color: #5e5a55;
             font:
-              600 clamp(11px, 1vw, 14px)/1.4 "DM Sans",
+              600 clamp(13px, 1.15vw, 16px)/1.4 "DM Sans",
               sans-serif;
             letter-spacing: 0.16em;
             text-align: center;
@@ -1476,7 +1486,7 @@ export default function Home() {
             justify-content: center;
             color: #1236d8;
             font:
-              700 clamp(120px, 22vw, 300px)/0.9 "Space Grotesk",
+              700 clamp(150px, 25vw, 340px)/0.9 "Space Grotesk",
               sans-serif;
             letter-spacing: -0.09em;
             font-variant-numeric: tabular-nums;
@@ -1534,13 +1544,13 @@ export default function Home() {
             }
 
             .preloader-number {
-              font-size: clamp(88px, 22vw, 160px);
+              font-size: clamp(140px, 38vw, 190px);
             }
 
             .preloader-message {
-              max-width: 90vw;
-              font-size: 10px;
-              letter-spacing: 0.12em;
+              max-width: 92vw;
+              font-size: clamp(14px, 3.8vw, 16px);
+              letter-spacing: 0.1em;
             }
           }
 
@@ -10923,7 +10933,7 @@ export default function Home() {
       </style>
 
       <motion.header
-        className="container topbar"
+        className="topbar"
         initial={shouldReduceMotion ? false : { opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
