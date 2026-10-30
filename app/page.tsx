@@ -1382,30 +1382,46 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <span
+                <svg
+                  aria-hidden="true"
+                  width="34"
+                  height="34"
+                  viewBox="0 0 34 34"
                   style={{
                     position: "absolute",
                     top: 0,
                     right: 10,
-                    fontSize: 30,
-                    lineHeight: 1,
                     color: "#1236d8",
                   }}
                 >
-                  ✳
-                </span>
-                <span
+                  <path
+                    d="M17 2V32M2 17H32M6.4 6.4L27.6 27.6M27.6 6.4L6.4 27.6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  width="23"
+                  height="23"
+                  viewBox="0 0 34 34"
                   style={{
                     position: "absolute",
                     bottom: 8,
                     left: 8,
-                    fontSize: 20,
-                    lineHeight: 1,
                     color: "#1236d8",
                   }}
                 >
-                  ✳
-                </span>
+                  <path
+                    d="M17 2V32M2 17H32M6.4 6.4L27.6 27.6M27.6 6.4L6.4 27.6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </div>
               <div
                 className="preloader-number-window"
